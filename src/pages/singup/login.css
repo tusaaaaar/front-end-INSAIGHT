@@ -1,0 +1,87 @@
+
+.login{
+    display: flex;
+    height: 100vh;
+    /* align-items: center; */
+    justify-content: center;
+    height: 100vh;
+    /*  gap: 4rem; */
+    position:relative; 
+  }
+  .login > div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+  }
+  .left{
+    flex:1;
+    /* background-image: url('../../assets/images/campus.png');
+    width: 100%; */
+  }
+  .right{
+    flex:1;
+  }
+  /* Left side */
+  .loginleft{
+    background-image: url('../../assets/images/campus.png');
+    gap:2rem; 
+  }
+  
+  .loginleft > img{
+    width: 16rem;
+    height: 10rem;
+  }
+  .name > h3 {
+    font-size: 3 rem;
+  
+  }
+  
+  .name > img{
+    width: 100%;
+    max-height: 20rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+  }
+  
+  .info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  .infoin{
+    border: none;
+    outline: none;
+    background-color: rgba(167, 160, 151, 0.377);
+    border-radius: 8px;
+    padding: 12px;
+    flex: 1;
+  }
+  
+  .info > div{
+    display: flex;
+    gap: 1rem;
+    height: 1.2rem;
+    width: 100%;
+  }
+  
+  .infoButton{
+    width:4.5rem;
+    height: 1.7rem;
+    margin-left: auto;
+  }
+  
+  .authentication{
+    background-color: rgb(188, 245, 226);
+    border-radius: 1rem;
+    padding: 1rem;
+  }
+  
+  .authentication >div{
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
