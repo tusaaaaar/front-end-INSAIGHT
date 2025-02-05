@@ -1,7 +1,8 @@
 import React from "react";
 import './login.css'
 import logo from '../../assets/images/LOGO.png'
-import campus from '../../assets/images/campus.png'
+import collage from '../../assets/images/collage2.png'
+import collage1 from '../../assets/images/collagee 1.png'
 import { useState } from 'react';
 import axios from 'axios';
 // import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -26,20 +27,35 @@ const Login = () => {
 
   return(
   <div className="login"
-  
   >
     <div className="left">
-      <div className="loginleft">
-        <img src={logo} alt="sitelogo" />
-        <div className="name">
-          <h3>Share your creativity and stand out.</h3>
-          {/* <img src={campus} alt="baground" /> */}
-        </div>
+
+      <div className="loginleft1">
+        <img src={collage} alt="collagee" /> 
+
       </div>
+      <div className="loginleft2">
+        
+        <img src={collage1} alt="collagee" /> 
+
+
+
+        {/* <img src={logo} alt="sitelogo" />
+        <div className="name">
+          <h2>Share your creativity and stand out.</h2>
+          <img src={campus} alt="baground" />
+        </div> */}
+
+      </div>
+
     </div>
+
+
     <div className="right">
+      <img src={logo} alt="sitelogo" /> 
       {isSignUp ? <Loginalready toggleForm={() => setIsSignUp(false)} /> : <SignUp toggleForm={() => setIsSignUp(true)} />}
     </div>
+
   </div>
 
   );
@@ -102,6 +118,9 @@ function SignUp( {toggleForm} ) {
 
   return (
     <div className="loginRight">
+      
+      
+      
       {/* <form className="info authentication"> */}
       <form className="info authentication" onSubmit={handleSignUp}>
         <h3>Sign Up</h3>

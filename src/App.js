@@ -7,7 +7,7 @@ import ProtectedRoute from "./route/ProtectedRoute";
 import Navbar from "./components/AppBar/Appbar";
 import Home from "./pages/home/Home";
 import Login from "./pages/singup/Login";
-import Profile from "./pages/Profile";
+import Profile from "./pages/profile/Profile";
 
 const App = () => {
   return (
