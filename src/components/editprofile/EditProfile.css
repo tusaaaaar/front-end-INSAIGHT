@@ -1,0 +1,78 @@
+/* Container for the entire edit profile modal */
+.edit-profile-container {
+  display: flex;
+  gap: 20px;
+  padding: 16px;
+}
+
+/* Avatar Section */
+.avatar-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* Ensures the badge positions relative to this div */
+}
+
+/* Avatar Image */
+.profile-avatar {
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Badge for Avatar (Camera Icon) */
+.avatar-badge {
+  background-color: #1976d2;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  position: absolute; /* Needed for corner placement */
+}
+
+/* Position the badge on different corners */
+
+/* Bottom-right corner */
+.avatar-badge.bottom-right {
+  bottom: 5px;  
+  right: 5px;
+}
+
+/* Form Section */
+.form-section {
+  flex-grow: 1;
+}
+
+/* Input Fields */
+.input-container {
+  margin-bottom: 12px;
+}
+
+/* Buttons */
+.edit-profile-btn {
+  margin-top: 10px;
+  background-color: #1976d2;
+  color: white;
+}
+
+.edit-profile-btn:hover {
+  background-color: #1565c0;
+}
+
+.cancel-button {
+  color: #f44336;
+}
+
+.save-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.save-button:hover {
+  background-color: #388e3c;
+}

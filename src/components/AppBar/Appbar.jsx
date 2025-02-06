@@ -2,7 +2,6 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import HomeSharpIcon from '@mui/icons-material/HomeSharp';
-// import SettingsIcon from '@mui/icons-material/Settings';
 import Avatar from '@mui/material/Avatar';
 import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp';
 import Toolbar from "@mui/material/Toolbar";
@@ -12,16 +11,9 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
-
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-
 import "./Appbar.css";
-
-
-
-
-
 
 export default function NavBar() {
   const [darkMode, setDarkMode] = React.useState(false); // for dark mode toggle
@@ -31,10 +23,10 @@ export default function NavBar() {
   // Dark mode handling
   React.useEffect(() => {
     if (darkMode) {
-      document.body.style.backgroundColor = '#333'; // dark bg color
+      document.body.style.backgroundColor = '#333'; // dark mode bg color
       document.body.style.color = 'white'; // text color
     } else {
-      document.body.style.backgroundColor = 'white'; // light bg color
+      document.body.style.backgroundColor = 'white'; // light mode bg color
       document.body.style.color = 'black'; // text color
     }
   }, [darkMode]);
@@ -59,24 +51,19 @@ export default function NavBar() {
     setAnchorEl(null);
   };
 
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="green">
         <Toolbar className="icons">
-          <Box  sx={{ display: 'flex', alignItems: 'center', marginRight: 2 }}
-          onClick={handleLogoClick} //click handler
-          >
-          <img 
-          src={logo} 
-          alt="LOGO" 
-          style ={{  width: '50px', height:'50px'}} /> {/*logo ka size.*/}
+          <Box sx={{ display: 'flex', alignItems: 'center', marginRight: 2 }} onClick={handleLogoClick}>
+            <img src={logo} alt="LOGO" style={{ width: '50px', height: '50px' }} />
           </Box>
-          
+
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             INSIGHT
           </Typography>
-          {/*Search ke liye hai ye */}
+
+          {/* Search bar */}
           <TextField
             label="Search"
             variant="outlined"
@@ -89,40 +76,58 @@ export default function NavBar() {
               width: "30%",
             }}
           />
+
           <Button color="inherit" component={Link} to="/home">
-          <HomeSharpIcon />
+            <HomeSharpIcon />
             Home
           </Button>
           <Button color="inherit" component={Link} to="/Profile">
-          <AccountCircleSharpIcon /> 
+            <AccountCircleSharpIcon />
             Profile
           </Button>
+
+          {/* Profile menu */}
           <Button
             id="basic-button"
             aria-controls={open ? 'basic-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
-          >          
-            < Avatar alt="Profile image" src={PROFILE} />
-            {/* <SettingsIcon /> */}
+          >
+            <Avatar alt="Profile image" src={PROFILE} />
             Me
-            <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                  'aria-labelledby': 'basic-button',
-                }}
-              >
-                <MenuItem  onClick={handleLogoClick} >Mode</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
-            </Menu>
-
           </Button>
+
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button',
+            }}
+          >
+            <MenuItem
+              onClick={() => {
+                handleLogoClick(); // Toggle dark mode
+                handleClose(); // Close the menu
+              }}
+            >
+              Mode
+            </MenuItem>
+
+            <MenuItem
+              onClick={() => {
+                console.log("Logging out..."); // Perform logout functionality
+                handleClose(); // Close the menu
+              }}
+            >
+              Logout
+            </MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
     </Box>
   );
 }
+  
