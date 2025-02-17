@@ -236,7 +236,7 @@ function Loginalready({ toggleForm }) {
     try {
       const response = await axios.post('http://localhost:5000/login', formData);
       
-      login();
+      login(formData);
 
 
       navigate('/home');

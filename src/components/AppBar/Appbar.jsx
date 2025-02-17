@@ -2,11 +2,9 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import HomeSharpIcon from '@mui/icons-material/HomeSharp';
-import Avatar from '@mui/material/Avatar';
 import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp';
 import Toolbar from "@mui/material/Toolbar";
 import logo from '../../assets/images/insaight.png';
-import PROFILE from '../../assets/images/ProfileImage.JPG';
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -14,11 +12,19 @@ import { Link } from "react-router-dom";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import "./Appbar.css";
+import DehazeIcon from '@mui/icons-material/Dehaze';
+import { useAuth } from "../../context/AuthContext";
+import { Avatar } from "@mui/material";
 
 export default function NavBar() {
   const [darkMode, setDarkMode] = React.useState(false); // for dark mode toggle
   const [anchorEl, setAnchorEl] = React.useState(null); // for menu anchor
   const open = Boolean(anchorEl);
+
+  const {user}=useAuth();//get user from authcontext
+  // const profilePicture=`http:/localhost:5000${user.profilePicture}`;
+  const {logout}=useAuth();
+  console.log("user details in app bar ",user);
 
   // Dark mode handling
   React.useEffect(() => {
@@ -51,6 +57,10 @@ export default function NavBar() {
     setAnchorEl(null);
   };
 
+  const handleLogout =()=>{
+    logout();
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="green">
@@ -82,8 +92,10 @@ export default function NavBar() {
             Home
           </Button>
           <Button color="inherit" component={Link} to="/Profile">
-            <AccountCircleSharpIcon />
-            Profile
+            {/* <AccountCircleSharpIcon /> */}
+            {/* <Avatar src={profilePicture} sx={{width: "5vh", height: "5vh", border: "1px solid white"}}></Avatar> */}
+            {/* Profile */}
+            {user.username}
           </Button>
 
           {/* Profile menu */}
@@ -93,9 +105,8 @@ export default function NavBar() {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
+            startIcon={<DehazeIcon />}
           >
-            <Avatar alt="Profile image" src={PROFILE} />
-            Me
           </Button>
 
           <Menu
@@ -119,6 +130,7 @@ export default function NavBar() {
             <MenuItem
               onClick={() => {
                 console.log("Logging out..."); // Perform logout functionality
+                handleLogout();
                 handleClose(); // Close the menu
               }}
             >
