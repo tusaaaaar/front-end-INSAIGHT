@@ -34,6 +34,8 @@
 
 // export const useAuth = () => useContext(AuthContext);
 
+//working version
+
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
@@ -47,23 +49,34 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(true);
     setUser(userData);
     console.log('User logged in:', userData);
-    fetchUserData(userData.username);
+    // Use _id from the user object returned by the backend
+    fetchUserData(userData._id);
   };
 
-  const fetchUserData = async (username) => {
+  const fetchUserData = async (userId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/users/${encodeURIComponent(username)}`);
+      console.log("In useAuth, fetching user data for ID:", userId);
+      const response = await axios.get(`http://localhost:5000/users/${encodeURIComponent(userId)}`);
       const fetchedUser = response.data.user;
+  
       if (fetchedUser) {
+        // If the user has a profile picture ID, generate the URL
+        if (fetchedUser.profilePicture) {
+          fetchedUser.profilePictureUrl = `http://localhost:5000/files/${fetchedUser.profilePicture}`;
+        } else {
+          fetchedUser.profilePictureUrl = "/default-avatar.png"; // Fallback
+        }
+  
         setUser(fetchedUser);
-        console.log('Fetched user data:', fetchedUser);
+        console.log("Fetched user data with profile picture:", fetchedUser);
       } else {
-        console.warn('User not found');
+        console.warn("User not found");
       }
     } catch (error) {
-      console.error('Failed to load user data:', error);
+      console.error("Failed to load user data:", error);
     }
   };
+  
 
   const logout = () => {
     setIsAuthenticated(false);
@@ -77,10 +90,11 @@ export const AuthProvider = ({ children }) => {
   }, [user]);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, fetchUserData }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
 export const useAuth = () => useContext(AuthContext);
+

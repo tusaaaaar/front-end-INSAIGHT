@@ -14,7 +14,8 @@ import LockIcon from "@mui/icons-material/Lock";
 
 
 export default function Profile() {
-  const { user } = useAuth(); // Get user from AuthContext
+  const { user,fetchUserData} = useAuth(); // Get user from AuthContext
+  // const [updatedData, setUpdatedData] = useState(user || {}); // Store entire user object
   console.log("user details from useauth in profile component  ",user);
 
   const [open, setOpen] = useState(false);
@@ -35,34 +36,74 @@ export default function Profile() {
   // Handle avatar click
 const handleAvatarClick = () => setZoomed(!zoomed);
  
-  // Fetch user data from backend
-  useEffect(() => {
-    if (user?.username) {
-      axios
-        .get(`http://localhost:5000/users/${encodeURIComponent(user.username)}`)
-        .then((response) => {
-          setUserData(response.data.user);
-          // setOriginalUserData(response.data.user);
-          console.log("Frontend has user data ",response.data.user);
-          // console.log("user pass ",user.password);
-          setCurrentPassword(user.password);
+  // // Fetch user data from backend
+  // useEffect(() => {
+  //   if (user?.username) {
+  //     axios
+  //       .get(`http://localhost:5000/users/${encodeURIComponent(user.username)}`)
+  //       .then((response) => {
+  //         setUserData(response.data.user);
+  //         // setOriginalUserData(response.data.user);
+  //         console.log("Frontend has user data ",response.data.user);
+  //         // console.log("user pass ",user.password);
+  //         setCurrentPassword(user.password);
        
-          //  Ensure profilePicture is set correctly
+  //         //  Ensure profilePicture is set correctly
+  //         if (response.data.user.profilePicture) {
+  //           setPreview(`http://localhost:5000${response.data.user.profilePicture}`);
+  //         } else {
+  //           setPreview("/default-avatar.png"); // Fallback image
+  //         }
+  //       })
+  //       .catch((error) => console.error("Error fetching user data:", error));
+  //   }
+  // }, [user]);
+
+
+
+  //ftech data from backend ....included gridfs
+  useEffect(() => {
+    if (user?._id) {
+      axios
+        .get(`http://localhost:5000/users/${encodeURIComponent(user._id)}`) // Use user._id instead of user.username
+        .then(async (response) => {
+          setUserData(response.data.user);
+  
           if (response.data.user.profilePicture) {
-            setPreview(`http://localhost:5000${response.data.user.profilePicture}`);
+            console.log("Check what is sent to backend:", response.data.user.profilePicture);
+            try {
+              const imageResponse = await axios.get(
+                `http://localhost:5000/files/${response.data.user.profilePicture}`,
+                { responseType: "blob" }
+              );
+              const imageUrl = URL.createObjectURL(imageResponse.data);
+              setPreview(imageUrl);
+              console.log("Image URL is:", imageUrl);
+            } catch (error) {
+              console.error("Error fetching profile picture:", error);
+              setPreview("/default-avatar.png");
+            }
           } else {
             setPreview("/default-avatar.png"); // Fallback image
           }
         })
         .catch((error) => console.error("Error fetching user data:", error));
     }
-  }, [user]);
+  }, [user, userData.profilePicture]); // Ensure it refetches when profilePicture changes
+  
+  
+  
+
+
 
   // Handle file selection
   const handleFileChange = (event) => {
     console.log("picture got selected ");
     const file = event.target.files[0];
     setSelectedFile(file);
+
+
+    // setUpdatedData({ ...updatedData, [e.target.name]: e.target.value }); //added
 
     // Show preview immediately
     if (file) {
@@ -111,43 +152,91 @@ const handleClosePasswordPopup = () => {
 };
 
 
-  // Handle Save Profile Changes
+  // // Handle Save Profile Changes
 
-  const handleSave = () => {
+  // const handleSave = () => {
+  //   const formData = new FormData();
+  //   formData.append("username", userData.username);
+  //   formData.append("email", userData.email);
+  //   formData.append("bio", userData.bio);
+  
+  //   if (selectedFile) {
+  //     formData.append("profilePicture", selectedFile);
+  //   }
+
+  //   //password
+  //   if (newPassword){
+  //     console.log("new password is ",newPassword);
+  //     formData.append("password",newPassword);
+  //   }
+  
+  //   axios.put(`http://localhost:5000/users/${encodeURIComponent(user.username)}`, formData, {
+  //     headers: { "Content-Type": "multipart/form-data" }
+  //   })
+  //   .then(response => {
+  //     console.log("Profile updated successfully:", response.data);
+  //     const updatedUser = response.data.user;
+  //     setPreview(`http://localhost:5000${updatedUser.profilePicture}`);
+  //     setUserData(updatedUser);
+  //     setOpen(false);
+
+  //     setNewPassword("");
+  //     setConfirmPassword("");
+  //     setPasswordError("");
+  //     setTypedPassword("");
+  //   })
+  //   .catch(error => {
+  //     console.error("Error updating profile:", error);
+  //   });
+  // };
+
+
+  //handle save changes ....gridfs
+  const handleSave = async () => {
     const formData = new FormData();
     formData.append("username", userData.username);
+    formData.append("id",userData._id);
+    console.log("user id is ",userData._id)
     formData.append("email", userData.email);
     formData.append("bio", userData.bio);
-  
-    if (selectedFile) {
-      formData.append("profilePicture", selectedFile);
-    }
 
-    //password
-    if (newPassword){
-      console.log("new password is ",newPassword);
+   
+    if (selectedFile) {
+      formData.append("profilePicture", selectedFile); // Send the selected file
+    }
+    if(newPassword)
+    {
       formData.append("password",newPassword);
     }
   
-    axios.put(`http://localhost:5000/users/${encodeURIComponent(user.username)}`, formData, {
-      headers: { "Content-Type": "multipart/form-data" }
-    })
-    .then(response => {
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/users/${encodeURIComponent(userData._id)}`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+  
       console.log("Profile updated successfully:", response.data);
-      const updatedUser = response.data.user;
-      setPreview(`http://localhost:5000${updatedUser.profilePicture}`);
-      setUserData(updatedUser);
+      await fetchUserData(userData._id);// Update global state in AuthContext
+      setUserData(response.data.user);
       setOpen(false);
-
-      setNewPassword("");
-      setConfirmPassword("");
-      setPasswordError("");
-      setTypedPassword("");
-    })
-    .catch(error => {
+  
+      if (response.data.user.profilePicture) {
+        // Fetch updated profile picture from GridFS
+        const imageResponse = await axios.get(
+          `http://localhost:5000/files/${response.data.user.profilePicture}`,
+          { responseType: "blob" }
+        );
+        const imageUrl = URL.createObjectURL(imageResponse.data);
+        console.log("ImageResponse.data",imageUrl);
+        setPreview(imageUrl);
+      }
+    } catch (error) {
       console.error("Error updating profile:", error);
-    });
+    }
   };
+  
+  
 
 
   if (!user) {

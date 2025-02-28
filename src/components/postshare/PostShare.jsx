@@ -1,13 +1,15 @@
 import React, { useState, useRef } from "react";
 import "./PostShare.css";
-import ProfileImage from "../../assets/images/ProfileImage.JPG";
+// import ProfileImage from "../../assets/images/ProfileImage.JPG";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import ArticleIcon from "@mui/icons-material/Article";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import CloseIcon from '@mui/icons-material/Close';
+import { useAuth } from "../../context/AuthContext";
 
  
 const Postshare = () => {
+  const {user}=useAuth();
   const [image, setImage]= useState(null)
   const imageRef=useRef()
   const onImageChange = (event) => {
@@ -21,7 +23,7 @@ const Postshare = () => {
   return (
 
     <div className="postshare">
-       <img className="profile-image" src={ProfileImage} alt="Profile" /> 
+       <img className="profile-image" src={`http://localhost:5000${user.profilePicture}`} alt="Profile" /> 
       <div>
         <input type="text" placeholder="Got something to share?" />
         <div className="postoption">
@@ -41,7 +43,8 @@ const Postshare = () => {
             Share
           </button>
           <div style={{ display: "none" }}>
-            <input type="file" name="myImage" ref={imageRef} onChange={onImageChange}  />
+            <input type="file" name="myImage"             src={`http://localhost:5000${user.profilePicture}`}
+ onChange={onImageChange}  />
           </div>
         </div>
         {image && (         // Image pr click karne pe folder khule ga

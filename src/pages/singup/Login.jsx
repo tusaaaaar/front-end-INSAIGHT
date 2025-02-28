@@ -103,7 +103,6 @@ function SignUp( {toggleForm} ) {
       const response = await axios.post('http://localhost:5000/signup', dataToSend);
       
 
-      
       console.log(response.data);
       toggleForm();
       alert('Sign up successful!');
@@ -236,12 +235,14 @@ function Loginalready({ toggleForm }) {
     try {
       const response = await axios.post('http://localhost:5000/login', formData);
       
-      login(formData);
-
+      // login(formData);
+      login(response.data.user);
 
       navigate('/home');
       // alert('Login successful!');
-      console.log(response.data);
+      console.log("user repsonse login ",response.data.user)
+
+      // console.log(response.data);
     } catch (error) {
       console.error(error);
       alert('Login failed. Please try again.');

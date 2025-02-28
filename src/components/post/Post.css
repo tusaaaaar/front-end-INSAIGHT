@@ -2,6 +2,6 @@
     display:flex;
     flex-direction: column;
     gap: 1 rem;
-    height: 100vh;
+    height: 25vh;
     overflow: auto;
 }
