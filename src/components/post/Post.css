@@ -1,0 +1,7 @@
+.postcolumn{
+    display:flex;
+    flex-direction: column;
+    gap: 1 rem;
+    height: 25vh;
+    overflow: auto;
+}

@@ -1,0 +1,170 @@
+
+.login{
+    display: flex;
+    height: 100vh;
+    /* align-items: center; */
+    justify-content: center;
+    height: 100vh;
+    /*  gap: 4rem; */
+    position:relative; 
+    background-image: url('../../assets/images/bg.jpg');
+    background-position: center;
+    background-size: cover;
+  }
+
+  /* for loginright  */
+  h3, h2{
+    margin: 0;
+    padding: 0;
+  }
+ 
+  h2{
+    display: block;
+    margin-top: -30px;
+    margin-bottom: 10px;
+
+  }
+
+  @keyframes swipeAnimation {
+    0%{
+      transform: translateX(-50px);
+      opacity: 0;
+    }
+    50%{
+      transform: translateX(0px);
+      opacity: 1;
+    }
+    100%{
+      transform: translateX(0);
+      opacity: 1;
+    }
+    
+  }
+
+  .swipe{
+    animation: swipeAnimation 2s ease-out forwards;
+  }
+
+  .greeting{
+    display: inline-block;
+    transition: transform 0.3s ease-out;
+  }
+
+
+
+  .login > div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+  }
+  .left{
+    display:flex;
+    flex-direction: row;
+    flex:1.25;
+  }
+  .right{
+    display:flex;
+    flex-direction: column;
+    flex: 0.75;
+  }
+  .right > img{
+    width: 16rem;
+    height: 8rem;
+  }
+  /* Left side */
+  
+  .loginleft1{
+    height: 37rem;
+    width: 27rem;
+    position: relative;
+   
+    
+  }
+  .loginleft1 img {
+    width: 30%; 
+    height: 30%; 
+    object-fit: cover; }
+  
+  
+  .loginleft2{
+    height: 37rem;
+    width: 27rem;
+    position: absolute;
+    translate: 60%;
+    top: 30%; 
+    left: 0;
+    z-index: 1;
+    opacity: 1;
+  
+  }
+
+  .loginleft2 > img {
+    position: absolute;
+    top: 50%;
+    object-fit: cover;
+}
+  
+  .name > h2 {
+    
+    font-size: 2 rem;
+    color: #fffb00;
+  
+  }
+  
+  .name > img{
+    width: 100%;
+    max-height: 20rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+  }
+  
+  
+  .info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  .infoin{
+    border: none;
+    outline: none;
+    /*background-color: rgba(10, 10, 14, 0.731);*/
+    border-radius: 8px;
+    padding: 12px;
+    flex: 1;
+  }
+  .infoin:hover{
+    background-color: rgb(100, 200, 255);
+    padding: 13px;
+  }
+  
+  .info > div{
+    display: flex;
+    gap: 1rem;
+    height: 1.2rem;
+    width: 100%;
+  }
+  /* .info:last-child{
+    color:#fffb00;
+  } */
+  .infoButton{
+    width:4.5rem;
+    height: 1.7rem;
+    margin-left: auto;
+  }
+  
+  .authentication{
+    background-color: rgba(5, 162, 201, 0.212);
+    border-radius: 1rem;
+    padding: 1rem;
+
+  }
+  
+  .authentication >div{ 
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
