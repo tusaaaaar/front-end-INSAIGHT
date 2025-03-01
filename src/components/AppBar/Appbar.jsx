@@ -1,145 +1,291 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import HomeSharpIcon from '@mui/icons-material/HomeSharp';
-import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp';
-import Toolbar from "@mui/material/Toolbar";
-import logo from '../../assets/images/insaight.png';
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import { Link } from "react-router-dom";
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import "./Appbar.css";
-import DehazeIcon from '@mui/icons-material/Dehaze';
-import { useAuth } from "../../context/AuthContext";
-import { Avatar } from "@mui/material";
+  // import * as React from "react";
+  // import { useState, useEffect } from "react";
+  // import { Link, useNavigate } from "react-router-dom";
+  // import axios from "axios";
 
-export default function NavBar() {
-  const [darkMode, setDarkMode] = React.useState(false); // for dark mode toggle
-  const [anchorEl, setAnchorEl] = React.useState(null); // for menu anchor
-  const open = Boolean(anchorEl);
+  // import AppBar from "@mui/material/AppBar";
+  // import Box from "@mui/material/Box";
+  // import Toolbar from "@mui/material/Toolbar";
+  // import Typography from "@mui/material/Typography";
+  // import Button from "@mui/material/Button";
+  // import TextField from "@mui/material/TextField";
+  // import IconButton from "@mui/material/IconButton";
+  // import SearchIcon from "@mui/icons-material/Search";
+  // import HomeSharpIcon from '@mui/icons-material/HomeSharp';
+  // import Menu from "@mui/material/Menu";
+  // import MenuItem from "@mui/material/MenuItem";
+  // import DehazeIcon from "@mui/icons-material/Dehaze";
+  // import "./Appbar.css";
+  // import { useAuth } from "../../context/AuthContext";
+  // import logo from "../../assets/images/insaight.png";
 
-  const {user}=useAuth();//get user from authcontext
-  // const profilePicture=`http:/localhost:5000${user.profilePicture}`;
-  const {logout}=useAuth();
-  console.log("user details in app bar ",user);
+  // export default function NavBar() {
+  //   const [darkMode, setDarkMode] = useState(false);
+  //   const [anchorEl, setAnchorEl] = useState(null);
+  //   const open = Boolean(anchorEl);
+  //   const { user, logout } = useAuth();
+  //   const navigate = useNavigate();
 
-  // Dark mode handling
-  React.useEffect(() => {
-    if (darkMode) {
-      document.body.style.backgroundColor = '#333'; // dark mode bg color
-      document.body.style.color = 'white'; // text color
-    } else {
-      document.body.style.backgroundColor = 'white'; // light mode bg color
-      document.body.style.color = 'black'; // text color
-    }
-  }, [darkMode]);
+  //   // **Search State (Moved from UserSearch)**
+  //   const [query, setQuery] = useState("");
+  //   const [users, setUsers] = useState([]);
 
-  // Search handling
-  const handleSearchChange = (event) => {
-    const query = event.target.value;
-    console.log("Search query:", query);
-  };
+  //   // **Fetch Users When Typing**
+  //   useEffect(() => {
+  //     if (query.length > 1) {
+  //       const fetchUsers = async () => {
+  //         try {
+  //           const response = await axios.get(`http://localhost:5000/search?query=${query}`);
+  //           setUsers(response.data);
+  //         } catch (error) {
+  //           console.error("Error fetching users", error);
+  //         }
+  //       };
+  //       fetchUsers();
+  //     } else {
+  //       setUsers([]);
+  //     }
+  //   }, [query]);
 
-  // Dark mode toggle
-  const handleLogoClick = () => {
-    setDarkMode((prevMode) => !prevMode);
-  };
+  //   // **Dark Mode Toggle**
+  //   useEffect(() => {
+  //     document.body.style.backgroundColor = darkMode ? "#333" : "white";
+  //     document.body.style.color = darkMode ? "white" : "black";
+  //   }, [darkMode]);
 
-  // Menu handling
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  //   // **Handle Logout**
+  //   const handleLogout = () => {
+  //     logout();
+  //     setUsers([]);  
+  //     setQuery("");
+  //     navigate("/login"); // Redirect to login after logout
+  //   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  //   return (
+  //     <Box sx={{ flexGrow: 1 }}>
+  //       <AppBar position="static" sx={{ backgroundColor: darkMode ? "#333" : "white", color: darkMode ? "white" : "black" }}>
+  //         <Toolbar className="icons">
+  //           {/* Logo */}
+  //           <Box sx={{ display: "flex", alignItems: "center", marginRight: 2 }} onClick={() => setDarkMode(!darkMode)}>
+  //             <img src={logo} alt="LOGO" style={{ width: "50px", height: "50px" }} />
+  //           </Box>
 
-  const handleLogout =()=>{
-    logout();
+  //           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+  //             INSIGHT
+  //           </Typography>
+
+  //           {/* **Search Bar** */}
+  //           <div className="search-container">
+  //             <TextField
+  //               label="Search"
+  //               variant="outlined"
+  //               size="small"
+  //               value={query}
+  //               onChange={(e) => setQuery(e.target.value)}
+  //               className="search-field"
+                
+  //               slotProps={{
+  //                 input: {
+  //                   endAdornment: (
+  //                     <IconButton 
+  //                       onClick={() => console.log("Search query:", query)} 
+  //                     >
+  //                       <SearchIcon className="search-icon"/>
+  //                     </IconButton>
+  //                   ),
+  //                 },
+  //               }}
+  //             />
+  //           </div>
+
+
+  //           {/* **Search Results Dropdown** */}
+
+  //               {users.length > 0 && (
+  //                 <div className="search-dropdown">
+  //                   {users.map((user) => (
+  //                     <div key={user._id} className="search-result-item">
+  //                       <img src={`http://localhost:5000/files/${user.profilePicture}`} alt="Profile" className="search-avatar" />
+  //                       <span>{user.username}</span>
+  //                     </div>
+  //                   ))}
+  //                 </div>
+  //               )}
+
+  //           {/* **Home & Profile Buttons** */}
+  //           <Button color="inherit" component={Link} to="/home">
+  //             <HomeSharpIcon />
+  //             Home
+  //           </Button>
+  //           <Button color="inherit" component={Link} to="/Profile">
+  //             {user.username}
+  //           </Button>
+
+  //           {/* **Menu Button** */}
+  //           <Button id="basic-button" aria-controls={open ? "basic-menu" : undefined} aria-haspopup="true" onClick={(e) => setAnchorEl(e.currentTarget)} startIcon={<DehazeIcon />} />
+
+  //           {/* **Dropdown Menu** */}
+  //           <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={() => setAnchorEl(null)} MenuListProps={{ "aria-labelledby": "basic-button" }}>
+  //             <MenuItem onClick={() => setDarkMode(!darkMode)}>Dark Mode</MenuItem>
+  //             <MenuItem onClick={handleLogout}>Logout</MenuItem>
+  //           </Menu>
+  //         </Toolbar>
+  //       </AppBar>
+  //     </Box>
+  //   );
+  // }
+
+
+
+
+  import * as React from "react";
+  import { useState, useEffect } from "react";
+  import { Link, useNavigate } from "react-router-dom";
+  import axios from "axios";
+
+  import AppBar from "@mui/material/AppBar";
+  import Box from "@mui/material/Box";
+  import Toolbar from "@mui/material/Toolbar";
+  import Typography from "@mui/material/Typography";
+  import Button from "@mui/material/Button";
+  import TextField from "@mui/material/TextField";
+  import IconButton from "@mui/material/IconButton";
+  import SearchIcon from "@mui/icons-material/Search";
+  import HomeSharpIcon from '@mui/icons-material/HomeSharp';
+  import Menu from "@mui/material/Menu";
+  import MenuItem from "@mui/material/MenuItem";
+  import DehazeIcon from "@mui/icons-material/Dehaze";
+  import "./Appbar.css";
+  import { useAuth } from "../../context/AuthContext";
+  import logo from "../../assets/images/insaight.png";
+
+  export default function NavBar() {
+    const [darkMode, setDarkMode] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
+
+    // **Search State (Moved from UserSearch)**
+    const [query, setQuery] = useState("");
+    const [users, setUsers] = useState([]);
+
+    // **Fetch Users When Typing**
+    useEffect(() => {
+      if (query.length > 1) {
+        const fetchUsers = async () => {
+          try {
+            const response = await axios.get(`http://localhost:5000/search?query=${query}`);
+            setUsers(response.data);
+          } catch (error) {
+            console.error("Error fetching users", error);
+          }
+        };
+        fetchUsers();
+      } else {
+        setUsers([]);
+      }
+    }, [query]);
+
+    // **Dark Mode Toggle**
+    useEffect(() => {
+      document.body.style.backgroundColor = darkMode ? "#333" : "white";
+      document.body.style.color = darkMode ? "white" : "black";
+    }, [darkMode]);
+
+    // **Handle Logout**
+    const handleLogout = () => {
+      logout();
+      setUsers([]);  
+      setQuery("");
+      navigate("/login"); // Redirect to login after logout
+    };
+
+    return (
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" sx={{ backgroundColor: darkMode ? "#333" : "white", color: darkMode ? "white" : "black" }}>
+          <Toolbar className="icons">
+            {/* Logo */}
+            <Box sx={{ display: "flex", alignItems: "center", marginRight: 2 }} onClick={() => setDarkMode(!darkMode)}>
+              <img src={logo} alt="LOGO" style={{ width: "50px", height: "50px" }} />
+            </Box>
+
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              INSIGHT
+            </Typography>
+
+            {/* **Search Bar** */}
+            <div className="search-container">
+                <TextField
+                  variant="outlined"
+                  lable="Search"
+                  size="small"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  className="search-field"
+                  slotProps={{
+                    input: {
+                       endAdornment: (
+                        <IconButton 
+                        onClick={() => console.log("Search query:", query)}
+                        >
+                          <SearchIcon className="search-icon"/>
+                        </IconButton>
+                    ),
+                    },
+                  }}
+                        
+                />
+                
+                {users.length > 0 && (
+                  <div className="search-dropdown">
+                    {users.map((user) => (
+                      <div key={user._id} className="search-result-item">
+                        <img src={`http://localhost:5000/files/${user.profilePicture}`} alt="Profile" className="search-avatar" />
+                        <span>{user.username}</span>
+                        <div className="result-icon">
+                        <SearchIcon />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+
+
+            {/* **Search Results Dropdown** */}
+{/* 
+                {users.length > 0 && (
+                  <div className="search-dropdown">
+                    {users.map((user) => (
+                      <div key={user._id} className="search-result-item">
+                        <img src={`http://localhost:5000/files/${user.profilePicture}`} alt="Profile" className="search-avatar" />
+                        <span>{user.username}</span>
+                      </div>
+                    ))}
+                  </div>
+                )} */}
+
+            {/* **Home & Profile Buttons** */}
+            <Button color="inherit" component={Link} to="/home">
+              <HomeSharpIcon />
+              Home
+            </Button>
+            <Button color="inherit" component={Link} to="/Profile">
+              {user.username}
+            </Button>
+
+            {/* **Menu Button** */}
+            <Button id="basic-button" aria-controls={open ? "basic-menu" : undefined} aria-haspopup="true" onClick={(e) => setAnchorEl(e.currentTarget)} startIcon={<DehazeIcon />} />
+
+            {/* **Dropdown Menu** */}
+            <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={() => setAnchorEl(null)} MenuListProps={{ "aria-labelledby": "basic-button" }}>
+              <MenuItem onClick={() => setDarkMode(!darkMode)}>Dark Mode</MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
+          </Toolbar>
+        </AppBar>
+      </Box>
+    );
   }
-
-  return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="green">
-        <Toolbar className="icons">
-          <Box sx={{ display: 'flex', alignItems: 'center', marginRight: 2 }} onClick={handleLogoClick}>
-            <img src={logo} alt="LOGO" style={{ width: '50px', height: '50px' }} />
-          </Box>
-
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            INSIGHT
-          </Typography>
-
-          {/* Search bar */}
-          <TextField
-            label="Search"
-            variant="outlined"
-            size="small"
-            onChange={handleSearchChange}
-            sx={{
-              marginRight: 2,
-              backgroundColor: "white",
-              borderRadius: 1,
-              width: "30%",
-            }}
-          />
-
-          <Button color="inherit" component={Link} to="/home">
-            <HomeSharpIcon />
-            Home
-          </Button>
-          <Button color="inherit" component={Link} to="/Profile">
-            {/* <AccountCircleSharpIcon /> */}
-            {/* <Avatar src={profilePicture} sx={{width: "5vh", height: "5vh", border: "1px solid white"}}></Avatar> */}
-            {/* Profile */}
-            {user.username}
-          </Button>
-
-          {/* Profile menu */}
-          <Button
-            id="basic-button"
-            aria-controls={open ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
-            startIcon={<DehazeIcon />}
-          >
-          </Button>
-
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-          >
-            <MenuItem
-              onClick={() => {
-                handleLogoClick(); // Toggle dark mode
-                handleClose(); // Close the menu
-              }}
-            >
-              Mode
-            </MenuItem>
-
-            <MenuItem
-              onClick={() => {
-                console.log("Logging out..."); // Perform logout functionality
-                handleLogout();
-                handleClose(); // Close the menu
-              }}
-            >
-              Logout
-            </MenuItem>
-          </Menu>
-        </Toolbar>
-      </AppBar>
-    </Box>
-  );
-}
-  
