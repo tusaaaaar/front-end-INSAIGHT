@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardContent, Typography, Button, Avatar, Box, Grid } from "@mui/material";
+import {  CardMedia } from "@mui/material";
+
 import CardActions from "@mui/joy/CardActions";
 import Divider from "@mui/joy/Divider";
 import FormControl from "@mui/joy/FormControl";
@@ -28,6 +30,14 @@ export default function Profile() {
   const [newPassword,setNewPassword]=useState("");
   const[confirmPassword,setConfirmPassword]=useState("");
   const[passwordError,setPasswordError]=useState("");
+
+
+//for posts,saved posts,followers,following toggle
+  const [selectedTab, setSelectedTab] = useState("posts"); // Default: Show posts
+  const [posts, setPosts] = useState([]);
+  const [savedPosts, setSavedPosts] = useState([]);
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
 
 
   const [zoomed, setZoomed] = useState(false);
@@ -92,7 +102,83 @@ const handleAvatarClick = () => setZoomed(!zoomed);
   }, [user, userData.profilePicture]); // Ensure it refetches when profilePicture changes
   
   
-  
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchData = async () => {
+      try {
+        if (selectedTab === "posts") {
+          // const res = await axios.get(`http://localhost:5000/user/${user._id}/posts`);
+          // setPosts(res.data);
+          const res = await axios.get(`http://localhost:5000/posts/user/${user._id}/posts`);
+          console.log("User posts:", res.data);
+          setPosts(res.data);
+        } else if (selectedTab === "saved") {
+          const res = await axios.get(`http://localhost:5000/posts/user/${user._id}/saved`);
+          setSavedPosts(res.data);
+        } else if (selectedTab === "followers") {
+          const res = await axios.get(`http://localhost:5000/user/${user._id}/followers`);
+          setFollowers(res.data);
+        } else if (selectedTab === "following") {
+          const res = await axios.get(`http://localhost:5000/user/${user._id}/following`);
+          setFollowing(res.data);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [selectedTab, user]);
+
+
+const handleFollowToggle = async (targetId, listType) => {
+  try {
+    console.log("Sending backend details for follow/unfollow", user._id, targetId);
+    const res = await axios.post(`http://localhost:5000/follow/${user._id}/${targetId}`);
+
+    if (listType === "following") {
+      // Update "Following" list
+      setFollowing((prevState) =>
+        prevState.map((u) =>
+          u._id === targetId ? { ...u, isFollowing: res.data.isFollowing } : u
+        ).filter((u) => res.data.isFollowing || u._id !== targetId) // Remove if unfollowed
+      );
+
+    //     //  Refetch userData to get updated followers and following list
+    // const updatedUserRes = await axios.get(`http://localhost:5000/users/${encodeURIComponent(user._id)}`);
+    // setUserData(updatedUserRes.data);  // Update userData state with latest data
+
+    } else if (listType === "followers") {
+      // Update "Followers" list
+      setFollowers((prevState) =>
+        prevState.map((u) =>
+          u._id === targetId ? { ...u, isFollowing: res.data.isFollowing } : u
+        )
+      );
+
+      //  //  Refetch userData to get updated followers and following list
+      //  const updatedUserRes = await axios.get(`http://localhost:5000/users/${encodeURIComponent(user._id)}`);
+      //  setUserData(updatedUserRes.data);  // Update userData state with latest data
+
+    }
+    
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      following: res.data.isFollowing
+        ? [...prevUserData.following, targetId]
+        : prevUserData.following.filter((id) => id !== targetId),
+    
+      followers: res.data.isFollowing
+        ? prevUserData.followers
+        : prevUserData.followers.filter((id) => id !== user._id),
+    }));
+
+
+  } catch (error) {
+    console.error("Error toggling follow state:", error);
+  }
+};
 
 
 
@@ -235,8 +321,10 @@ const handleClosePasswordPopup = () => {
       console.error("Error updating profile:", error);
     }
   };
-  
-  
+
+
+
+
 
 
   if (!user) {
@@ -248,28 +336,11 @@ const handleClosePasswordPopup = () => {
       <Grid container justifyContent="center">
         <Grid item lg={9} xl={7}>
           <Card sx={{ borderRadius: 3 }}>
-            {/* Profile Header */}
-            {/* <Box sx={{ backgroundColor: "#000", height: "200px", display: "flex", alignItems: "center", px: 3 }}>
-              <Avatar
-                src={preview}
-                sx={{ width: 120, height: 120, border: "3px solid white" }}
-              />
-              <Box sx={{ ml: 3, color: "white" }}>
-                <Typography variant="h5">{userData.username}</Typography>
-              </Box>
-              <Button variant="outlined" sx={{ ml: "auto", color: "white", borderColor: "white" }} onClick={() => setOpen(true)}>
-                Edit Profile
-              </Button>
-            </Box> */}
+           
 
                        {/* Profile Header (Instagram-like) */}
                         <Box sx={{ backgroundColor: "#000", height: "200px", display: "flex", alignItems: "center", px: 3 }}>
-                          {/* User Avatar */}
-                          {/* <Avatar
-                            src={preview}
-                            sx={{ width: 120, height: 120, border: "3px solid white", cursor: "pointer" }}
-                            onClick={handleAvatarClick}
-                          /> */}
+                        
                           <Avatar
                           src={preview}
                           sx={{
@@ -418,7 +489,6 @@ const handleClosePasswordPopup = () => {
                           <CardContent>
                             <CardActions>
                             <Button variant="outlined" startIcon={<LockIcon />} onClick={() => setPasswordOpen(true)}>Change Password</Button>
-                            {/* <Button variant="outlined" onClickChangePassword={()=>setPasswordOpen(true)}>Change Password</Button> */}
                             </CardActions>
                          
 
@@ -485,7 +555,7 @@ const handleClosePasswordPopup = () => {
               )}
 
             {/* Profile Stats */}
-            <CardContent sx={{ backgroundColor: "#f8f9fa", textAlign: "center" }}>
+            {/* <CardContent sx={{ backgroundColor: "#f8f9fa", textAlign: "center" }}>
               <Grid container justifyContent="space-around">
                 <Grid item>
                   <Typography variant="h5">{userData?.posts?.length }</Typography>
@@ -500,24 +570,347 @@ const handleClosePasswordPopup = () => {
                   <Typography variant="body2" color="text.secondary">Following</Typography>
                 </Grid>
               </Grid>
-            </CardContent>
-
-            {/* About Section */}
-            {/* <CardContent>
-              <Typography variant="h6">About</Typography>
-              <Box sx={{ backgroundColor: "#f8f9fa", p: 2, borderRadius: 2 }}>
-                <Typography variant="body2">{userData.bio || "No bio available"}</Typography>
-              </Box>
             </CardContent> */}
 
-               
-           
-           
-
-
           </Card>
+
+
+
+             <Card sx={{ width: "100%", margin: "auto", textAlign: "center" }}>
+              {/* Profile Stats */}
+              <CardContent sx={{ backgroundColor: "#f8f9fa" }}>
+                <Grid container justifyContent="space-around">
+                  <Grid item>
+                    <Typography
+                      variant="h5"
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => setSelectedTab("posts")}
+                    >
+                      {userData?.posts?.length}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Posts
+                    </Typography>
+                  </Grid>
+
+                  <Grid item>
+                    <Typography
+                      variant="h5"
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => setSelectedTab("saved")}
+                    >
+                        {userData?.savedPosts?.length}
+                      {/* {savedPosts.length} */}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Saved
+                    </Typography>
+                  </Grid>
+
+                  <Grid item>
+                    <Typography
+                      variant="h5"
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => setSelectedTab("followers")}
+                    >
+                      {userData?.followers?.length}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Followers
+                    </Typography>
+                  </Grid>
+
+                  <Grid item>
+                    <Typography
+                      variant="h5"
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => setSelectedTab("following")}
+                    >
+                      {userData?.following?.length}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Following
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </CardContent>
+
+              {/* Dynamic Content Section */}
+              <CardContent>
+                {/* {selectedTab === "posts" && (
+                  <div>
+                    <h3>Your Posts</h3>
+                    {posts.length > 0 ? (
+                      posts.map((post) => <p key={post._id}>{post.content}</p>)
+                    ) : (
+                      <p>No posts yet.</p>
+                    )}
+                  </div>
+                )} */}
+
+                {/* {selectedTab === "posts" && (
+                    <div>
+                      <h3>Your Posts</h3>
+                      {posts.length > 0 ? (
+                        posts.map((post) => (
+                          <div key={post._id} style={{ marginBottom: "10px", borderBottom: "1px solid #ddd", paddingBottom: "10px" }}>
+                            <p><strong>{post.caption}</strong></p>
+                            {post.images.length > 0 &&
+                              post.images.map((img, index) => (
+                                <img key={index} src={img} alt="Post" width="100%" style={{ borderRadius: "8px" }} />
+                              ))}
+                          </div>
+                        ))
+                      ) : (
+                        <p>No posts yet.</p>
+                      )}
+                    </div>
+                  )} */}
+
+                  {/* {selectedTab === "posts" && (
+                      <div>
+                        <h3>Your Posts</h3>
+                        {posts.length > 0 ? (
+                          posts.map((post) => (
+                            <Card key={post._id} sx={{ maxWidth: 400, marginBottom: 2, borderRadius: 2, boxShadow: 3 }}>
+                              {post.images.length > 0 && (
+                                <CardMedia
+                                  component="img"
+                                  height="300"
+                                  image={post.images[0]} // Display the first image if multiple
+                                  alt="Post Image"
+                                  sx={{ objectFit: "cover" }}
+                                />
+                              )}
+                              <CardContent>
+                                <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                                  {post.caption}
+                                </Typography>
+                              </CardContent>
+                            </Card>
+                          ))
+                        ) : (
+                          <p>No posts yet.</p>
+                        )}
+                      </div>
+                    )} */}
+
+              {/* {selectedTab === "posts" && (
+                  <div>
+                    <h3>Your Posts</h3>
+                    {posts.length > 0 ? (
+                      <Grid container spacing={2}> 
+                        {posts.map((post) => (
+                          <Grid item xs={12} sm={6} md={4} lg={3} key={post._id}>
+                            <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
+                              {post.images.length > 0 && (
+                                <CardMedia
+                                  component="img"
+                                  height="300"
+                                  image={post.images[0]} // Display first image
+                                  alt="Post Image"
+                                  sx={{ objectFit: "cover" }}
+                                />
+                              )}
+                              <CardContent>
+                                <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                                  {post.caption}
+                                </Typography>
+                              </CardContent>
+                            </Card>
+                          </Grid>
+                        ))}
+                      </Grid>
+                    ) : (
+                      <p>No posts yet.</p>
+                    )}
+                  </div>
+                )} */}
+
+
+{selectedTab === "posts" && (
+  <div>
+    <h3>Your Posts</h3>
+    {posts.length > 0 ? (
+      <Grid container spacing={2}>
+        {posts.map((post) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={post._id}>
+            <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
+              {post.images && post.images.length > 0 ? (
+                <CardMedia
+                  component="img"
+                  height="300"
+                  image={post.images[0]} // Display first image
+                  alt="Post Image"
+                  sx={{ objectFit: "cover" }}
+                />
+              ) : (
+                // Render article content if no images
+                <CardContent>
+                  <Typography variant="body2" sx={{ fontStyle: "italic", color: "gray" }}>
+                    Article
+                  </Typography>
+                  <Typography variant="body1">
+                    {post.content?.length > 100
+                      ? `${post.content.substring(0, 100)}...`
+                      : post.content}
+                  </Typography>
+                </CardContent>
+              )}
+              <CardContent>
+                <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                  {post.caption}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    ) : (
+      <p>No posts yet.</p>
+    )}
+  </div>
+)}
+
+
+{selectedTab === "saved" && (
+  <div>
+    <h3>Saved Posts</h3>
+    {savedPosts.length > 0 ? (
+      <Grid container spacing={2}>
+        {savedPosts.map((post) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={post._id}>
+            <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
+              {post.images && post.images.length > 0 ? (
+                <CardMedia
+                  component="img"
+                  height="300"
+                  image={post.images[0]} // Display first image
+                  alt="Post Image"
+                  sx={{ objectFit: "cover" }}
+                />
+              ) : (
+                // Render article content if no images
+                <CardContent>
+                  <Typography variant="body2" sx={{ fontStyle: "italic", color: "gray" }}>
+                    Article
+                  </Typography>
+                  <Typography variant="body1">
+                    {post.content?.length > 100
+                      ? `${post.content.substring(0, 100)}...`
+                      : post.content}
+                  </Typography>
+                </CardContent>
+              )}
+              <CardContent>
+                <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                  {post.caption}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    ) : (
+      <p>No saved posts yet.</p>
+    )}
+  </div>
+)}
+
+
+
+
+
+
+
+
+
+                {/* {selectedTab === "saved" && (
+                  <div>
+                    <h3>Saved Posts</h3>
+                    {savedPosts.length > 0 ? (
+                      savedPosts.map((post) => <p key={post._id}>{post.content}</p>)
+                    ) : (
+                      <p>No saved posts yet.</p>
+                    )}
+                  </div>
+                )} */}
+
+                {selectedTab === "followers" && (
+                  <div>
+                    <h3>Followers</h3>
+                    {followers.length > 0 ? (
+                      followers.map((follower) => (
+                        // <p key={follower._id}>{follower.username}</p>
+                        <div key={follower._id} className="user-card">
+                        <img
+                          src={follower.profilePicture ? `http://localhost:5000/files/${follower.profilePicture}` : "/default-avatar.png"}
+                          alt="Avatar"
+                        />
+                        <p>{follower.username}</p>
+                         {/* <button
+                          // onClick={() => handleFollowToggle(follower._id, follower.isFollowing)}
+                          className={follower.isFollowing ? "following" : "follow"}
+                        > */}
+                        <button onClick={() => handleFollowToggle(follower._id, "followers")}>
+                          {follower.isFollowing ? "following" : "Follow"}
+                        </button> 
+
+                      </div>
+                
+                      ))
+                    ) : (
+                      <p>No followers yet.</p>
+                    )}
+                  </div>
+                )}
+
+                {selectedTab === "following" && (
+                  <div>
+                    <h3>Following</h3>
+                    {following.length > 0 ? (
+                      following.map((followingUser) => (
+                        // <p key={followingUser._id}>{followingUser.username}</p>
+                        <div key={followingUser._id} className="user-card">
+                        <img
+                          src={followingUser.profilePicture ? `http://localhost:5000/files/${followingUser.profilePicture}` : "/default-avatar.png"}
+                          alt="Avatar"
+                        />
+                        <p>{followingUser.username}</p>
+                        {/* <button
+                          // onClick={() => handleFollowToggle(u._id, u.isFollowing)}
+                          className={followingUser.isFollowing ? "following" : "follow"}
+                        >
+                          {followingUser.isFollowing ? "following" : "follow"}
+                        </button> */}
+                        {/* <button
+                         onClick={() => handleFollowToggle(followingUser._id)}
+                        className={followingUser.isFollowing ? "following" : "follow"}
+                      > */}
+                      <button onClick={() => handleFollowToggle(followingUser._id, "following")}>
+                        {followingUser.isFollowing ? "Following" : "Follow"}
+                      </button>
+
+                      </div>
+                      ))
+                    ) : (
+                      <p>Not following anyone yet.</p>
+                    )}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+
         </Grid>
       </Grid>
     </Box>
   );
 }
+
+
+
+
+
+
+

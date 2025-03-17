@@ -1,11 +1,11 @@
 import React from 'react'
 import "./Post.css"
-import Postshare from '../postshare/PostShare.jsx'
+import CreatePost from '../post/CreatePost'
 // import Postcard from '../postcard/Postcard.jsx'
 const Post = () => {
   return (
     <div className="postcolumn">
-      <Postshare/>
+      <CreatePost/>
       {/* <Postcard/>
       <Postcard/>
       <Postcard/>

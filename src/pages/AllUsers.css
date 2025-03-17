@@ -1,0 +1,77 @@
+.home-container {
+    height:100%;
+    width: 100%; /* Takes full width */
+    border: 1px solid black;
+    padding: 16px;
+    overflow: hidden; /* Prevents horizontal scroll issues */
+    display: flex;
+  }
+  
+/* 🔽 Users List (One Below the Other) */
+.users-list {
+    display: flex;
+    flex-direction: column; /* Stack users vertically */
+    gap: 12px; /* Adds spacing between user cards */
+  }
+  
+  /* 🏷 User Card */
+  .user-card {
+    display: flex;
+    align-items: center; /* Align avatar & username */
+    gap: 12px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .user-card img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .user-card p {
+    flex-grow: 1; /* Allows username to take space */
+    font-weight: bold;
+  }
+  
+  .user-card button {
+    padding: 6px 12px;
+    border: none;
+    background-color: #0095f6;
+    color: white;
+    /* cursor: pointer; */
+    border-radius: 4px;
+  }
+  
+  p{
+    cursor:pointer;
+  }
+  .user-card:hover {
+    transform: scale(1.05);
+  }
+
+
+
+/* follow */
+  .user-card button {
+    padding: 6px 12px;
+    border: none;
+    /* cursor: pointer; */
+    border-radius: 4px;
+    transition: 0.2s ease-in-out;
+  }
+  
+  .follow {
+    background-color: #0095f6;
+    color: white;
+  }
+  
+  .following {
+    background-color: #e4e6eb;
+    color: black;
+  }
+  
