@@ -5,7 +5,7 @@ import CreatePost from '../post/CreatePost'
 const Post = () => {
   return (
     <div className="postcolumn">
-      <CreatePost/>
+      {/* <CreatePost/> */}
       {/* <Postcard/>
       <Postcard/>
       <Postcard/>

@@ -1,0 +1,152 @@
+
+.eco-club {
+    scrollbar-width: none; 
+    
+    max-height: 80vh;
+    overflow-y: auto;
+    width: 94%;
+    margin: auto ;
+    background: #dae5ef;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  .eco-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; 
+    gap: 15px;
+    border-bottom: 2px solid #28a745;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    flex-wrap: nowrap; 
+    overflow: hidden;
+}
+ .eco-header h2 {
+    font-size: 24px;
+    margin-top: 2%;
+    color: #44a43f;
+  }
+  .eco-logo {
+    width: 80px;
+    height: 85px;
+  }
+  
+  .eco-chart h3 {
+    text-align: center;
+  }
+
+  .eco-chart{
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .eco-updates, .eco-events, .eco-quotes, .eco-upcoming-events {
+    margin-top: 20px;
+  }
+  
+  .eco-update, .eco-event {
+    background: white;
+
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  
+  .eco-event-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: opacity 0.5s;
+  }
+  
+  .eco-quotes {
+    text-align: center;
+    background: #e3f2fd;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .animated-quote {
+    font-style: italic;
+    animation: fadeInOut 5s infinite;
+  }
+  
+  @keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  
+  .eco-upcoming-events .eco-event:hover {
+    background: #dff0d8;
+  }
+
+
+  .see-more-text {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .see-more-text:hover {
+    color: #0056b3;
+  }
+  
+  .small-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .small-btn:hover {
+    background: #218838;
+  }
+  
+
+
+  .eco-magazine {
+    text-align: center;
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.eco-report h3 {
+    font-size: 18px;
+    color: #28a745;
+    margin-bottom: 10px;
+}
+
+.download-btn {
+    display: inline-block;
+    background: #28a745;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+}
+
+.download-btn:hover {
+    background: #218838;
+}

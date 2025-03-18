@@ -5,6 +5,7 @@ import Post from "../../components/post/Post.jsx";
 import CardPost from "../../PostCard/CardPost.js";
 import AllUsers from "../AllUsers.js";
 
+import Eco from "../../components/ecoclub/Eco.jsx";
 const Home=() =>{
     return (
     <div className="home">
@@ -15,7 +16,7 @@ const Home=() =>{
            <CardPost/>
         </div>
         <div className="rightside">some notifications regarding eco enstine 
-           
+           <Eco/>
          </div>
 
     </div>
