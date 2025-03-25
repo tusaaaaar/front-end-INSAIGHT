@@ -1,147 +1,215 @@
 // import { useState } from "react";
+// import { TextField, Button } from "@mui/material";
+// import { CloudUpload, Article } from "@mui/icons-material";
 // import axios from "axios";
-// // import { useAuth } from '../context/AuthContext'; // Import useAuth
-
 // import { useAuth } from "../../context/AuthContext";
+// import "./Post.css"; // CSS for this component
 
 // const CreatePost = () => {
-
-//     const { user } = useAuth(); // Get logged-in user from AuthContext
-  
+//   const { user } = useAuth();
+//   const [postType, setPostType] = useState("image");
 //   const [caption, setCaption] = useState("");
 //   const [images, setImages] = useState([]);
+//   const [article, setArticle] = useState("");
 
-//   const handleFileChange = (e) => {
+//   const handleImageChange = (e) => {
 //     setImages([...e.target.files]);
 //   };
 
-//   const handlePostSubmit = async (e) => {
-//     e.preventDefault();
-    
+//   const handleSubmit = async () => {
 //     const formData = new FormData();
 //     formData.append("caption", caption);
-//     console.log("inside create post the  id is  ",user._id);
-
 //     formData.append("userId", user._id);
-//     images.forEach((image) => formData.append("images", image));
+
+//     if (postType === "image") {
+//       images.forEach((image) => formData.append("images", image));
+//     } else {
+//       formData.append("content", article);
+//     }
 
 //     try {
 //       await axios.post("http://localhost:5000/posts/create", formData, {
 //         headers: { "Content-Type": "multipart/form-data" },
 //       });
-
-//       alert("Post created successfully!");
+//       alert("Post Created Successfully!");
+//       // Clear inputs
+//       setCaption("");
+//       setImages([]);
+//       setArticle("");
 //     } catch (error) {
-//       console.error("Error creating post:", error);
+//       console.error("Error creating post", error);
 //     }
 //   };
 
 //   return (
-//     <form onSubmit={handlePostSubmit}>
-//       <input
-//         type="text"
-//         placeholder="Write a caption..."
+//     <div className="create-post-container">
+//       <div className="create-post-header">
+//         <button
+//           className={postType === "image" ? "toggle-btn active" : "toggle-btn"}
+//           onClick={() => setPostType("image")}
+//         >
+//           <CloudUpload /> Upload Image
+//         </button>
+//         <button
+//           className={postType === "article" ? "toggle-btn active" : "toggle-btn"}
+//           onClick={() => setPostType("article")}
+//         >
+//           <Article /> Write Article
+//         </button>
+//       </div>
+
+//       <TextField
+//         fullWidth
+//         label="Caption"
 //         value={caption}
 //         onChange={(e) => setCaption(e.target.value)}
+//         className="input-field"
 //       />
-//       <input type="file" multiple onChange={handleFileChange} />
-//       <button type="submit">Post</button>
-//     </form>
+
+//       {postType === "image" ? (
+//         <input
+//           type="file"
+//           multiple
+//           accept="image/*"
+//           onChange={handleImageChange}
+//           className="file-input"
+//         />
+//       ) : (
+//         <TextField
+//           fullWidth
+//           multiline
+//           rows={4}
+//           label="Write your article..."
+//           value={article}
+//           onChange={(e) => setArticle(e.target.value)}
+//           className="input-field"
+//         />
+//       )}
+
+//       <Button variant="contained" fullWidth className="submit-btn" onClick={handleSubmit}>
+//         Post
+//       </Button>
+//     </div>
 //   );
 // };
 
 // export default CreatePost;
 
 
-import { useState } from "react";
-import { TextField, Button, Card, CardContent, Typography } from "@mui/material";
-import { CloudUpload, Article } from "@mui/icons-material";
-import axios from "axios";
-// import { useAuth } from '../context/AuthContext'; // Import useAuth
-import { useAuth } from "../../context/AuthContext";
 
-const CreatePost = ({ userId }) => {
-  const { user } = useAuth(); // Get logged-in user from AuthContext
-  const [postType, setPostType] = useState("image"); // "image" or "article"
+import React, { useState } from "react";
+import { Tooltip,IconButton  } from "@mui/material";
+import { CloudUpload, Article, Add } from "@mui/icons-material";
+import { useAuth } from "../../context/AuthContext";
+import axios from "axios";
+import "./Post.css"; // Put CSS here
+
+const CreatePost = () => {
+  const { user } = useAuth();
+  const [postType, setPostType] = useState("image");
   const [caption, setCaption] = useState("");
   const [images, setImages] = useState([]);
   const [article, setArticle] = useState("");
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handleImageChange = (e) => {
     setImages([...e.target.files]);
   };
 
-  // const handleSubmit = async () => {
-  //   const formData = new FormData();
-  //   formData.append("caption", caption);
-  //   formData.append("userId", user._id);
-    
-  //   if (postType === "image") {
-  //     images.forEach((image) => formData.append("images", image));
-  //   } else {
-  //     formData.append("article", article);
-  //   }
-
-  //   try {
-  //     await axios.post("http://localhost:5000/posts/create", formData, {
-  //       headers: { "Content-Type": "multipart/form-data" },
-  //     });
-  //     alert("Post Created Successfully!");
-  //   } catch (error) {
-  //     console.error("Error creating post", error);
-  //   }
-  // };
-
   const handleSubmit = async () => {
     const formData = new FormData();
     formData.append("caption", caption);
     formData.append("userId", user._id);
-  
     if (postType === "image") {
       images.forEach((image) => formData.append("images", image));
     } else {
-      formData.append("content", article); // Fix: Send as "content", not "article"
+      formData.append("content", article);
     }
-  
+
     try {
       await axios.post("http://localhost:5000/posts/create", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       alert("Post Created Successfully!");
+      // Reset form
+      setCaption("");
+      setImages([]);
+      setArticle("");
+      setIsPopupOpen(false);
     } catch (error) {
       console.error("Error creating post", error);
     }
   };
-  
 
   return (
-    <Card sx={{ maxWidth: 500, margin: "auto", padding: 2 }}>
-      <CardContent>
-        <Typography variant="h5">Create Post</Typography>
+    <>
+      {/* Floating '+' Button */}
+      
+      <Tooltip title="Create Post" arrow>
+          <IconButton  className="fab-button" onClick={() => setIsPopupOpen(true)} color="primary">
+            <Add />
+          </IconButton >
+      </Tooltip>
 
-        {/* Toggle between Image & Article */}
-        <Button onClick={() => setPostType("image")} startIcon={<CloudUpload />} variant={postType === "image" ? "contained" : "outlined"}>
-          Upload Image
-        </Button>
-        <Button onClick={() => setPostType("article")} startIcon={<Article />} variant={postType === "article" ? "contained" : "outlined"}>
-          Write Article
-        </Button>
+      {/* Popup Overlay */}
+      {isPopupOpen && (
+        <div className="popup-overlay">
+          <div className="popup-container">
+            <button className="close-btn" onClick={() => setIsPopupOpen(false)}>
+              &times;
+            </button>
+            <h2>Create Post</h2>
 
-        <TextField fullWidth label="Caption" value={caption} onChange={(e) => setCaption(e.target.value)} sx={{ my: 2 }} />
+            {/* Toggle Buttons */}
+            <div className="toggle-buttons">
+              <button
+                onClick={() => setPostType("image")}
+                className={postType === "image" ? "active" : ""}
+              >
+                <CloudUpload /> Image
+              </button>
+              <button
+                onClick={() => setPostType("article")}
+                className={postType === "article" ? "active" : ""}
+              >
+                <Article /> Article
+              </button>
+            </div>
 
-        {postType === "image" ? (
-          <input type="file" multiple accept="image/*" onChange={handleImageChange} />
-        ) : (
-          <TextField fullWidth multiline rows={4} label="Write your article..." value={article} onChange={(e) => setArticle(e.target.value)} />
-        )}
+            {/* Caption Input */}
+            <input
+              type="text"
+              placeholder="Caption..."
+              value={caption}
+              onChange={(e) => setCaption(e.target.value)}
+            />
 
-        <Button fullWidth variant="contained" sx={{ mt: 2 }} onClick={handleSubmit}>
-          Post
-        </Button>
-      </CardContent>
-    </Card>
+            {/* Content Upload */}
+            {postType === "image" ? (
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+            ) : (
+              <textarea
+                rows="4"
+                placeholder="Write your article..."
+                value={article}
+                onChange={(e) => setArticle(e.target.value)}
+              />
+            )}
+
+            {/* Submit Button */}
+            <button className="submit-btn" onClick={handleSubmit}>
+              Post
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
 export default CreatePost;
-
