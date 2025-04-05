@@ -1,70 +1,168 @@
-# Getting Started with Create React App
+cat << 'EOF' > README.md
+# 🌐 INSAIGHT - Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**INSAIGHT** is a dynamic platform designed to showcase student creativity and promote institutional talent. The platform enables students to share their projects, performances, and creative work, which can be reviewed and selected by members of the INSAIGHT Department for featuring in the institute's monthly magazine. In addition, the platform hosts a dedicated Eco Einstein Club section to highlight environmental initiatives and sustainability efforts — bridging creativity with conscious living and responsible citizenship.
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
+This repository holds the **frontend code**, built with **React.js** using **Vite**, **Tailwind CSS**, and **modular architecture**.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🚀 Features
 
-### `npm test`
+- 🔐 Auth UI (login/register) 
+- 📰 Post announcements with optional media attachments
+- 🧑‍🏫 Role-based access and navigation
+- 📲 Responsive UI 
+- ♻️ Reusable component structure for maintainability
+- 🌓 Light/dark theme support (coming soon)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🏗️ Project Structure
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+front-end-INSAIGHT/
+│
+├── public/
+│   └── index.html
+│
+├── src/
+│   ├── assets/
+│   │   ├── bg.png
+│   │   └── logos/
+│   │       ├── crlogo.png
+│   │       └── faclogo.png
+│   │
+│   ├── components/
+│   │   ├── Button.jsx
+│   │   ├── InputField.jsx
+│   │   ├── Navbar.jsx
+│   │   ├── Sidebar.jsx
+│   │   ├── PostCard.jsx
+│   │   └── ...
+│   │
+│   ├── constants/
+│   │   └── index.js
+│   │
+│   ├── context/
+│   │   ├── AuthContext.jsx
+│   │   └── ThemeContext.jsx
+│   │
+│   ├── pages/
+│   │   ├── Login.jsx
+│   │   ├── Dashboard.jsx
+│   │   ├── Home.jsx
+│   │   ├── CRSection.jsx
+│   │   └── FacultySection.jsx
+│   │
+│   ├── utils/
+│   │   └── validateUser.js
+│   │
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+│
+├── .gitignore
+├── package.json
+├── vite.config.js
+└── README.md
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🧰 Tech Stack
 
-### `npm run eject`
+- **React.js** 
+- **React Router DOM**
+- **React Context API**
+- *in other repository*
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📦 Setup Instructions
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 🔧 Prerequisites
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Node.js (v16+)
+- npm 
+### 📥 Installation
 
-## Learn More
+\`\`\`bash
+git clone https://github.com/tusaaaaar/front-end-INSAIGHT.git
+cd front-end-INSAIGHT
+npm install
+\`\`\`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### ▶️ Run Locally
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+\`\`\`bash
+npm run dev
+\`\`\`
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 🎯 Roles (Planned)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- **📝 INSAIGHT Department:**  
+  Acts as the content review committee. Responsible for evaluating student submissions, curating exceptional entries, and selecting top content for publication in the institute’s monthly magazine.
 
-### Advanced Configuration
+- **🎓 Students:**  
+  Primary contributors to the platform. Can upload academic projects, creative works, artwork, and performances. They can also explore submissions by peers to foster a collaborative and inspiring environment.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- **🌱 Eco Einstein Club Members:**  
+  Share regular updates on the club’s sustainability initiatives, including environmental campaigns, awareness drives, plogging sessions, and campus eco-activities to promote green living.
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## 🧩 To-Do (Upcoming Features)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- 🌓 Theme switcher (light/dark)
+- 📱 Mobile optimization
+- 📨 Notifications & bookmarking system
+
+---
+
+## 🤝 Contributing
+
+\`\`\`bash
+# Fork the repo
+# Create a new branch
+git checkout -b feature/newComponent
+# Make changes, then commit
+git commit -m "Added new reusable button component"
+# Push and open a PR
+git push origin feature/newComponent
+\`\`\`
+
+---
+
+## 📸 Screenshots (Optional)
+
+> Screen shot idhr aaye ga
+---
+
+## 🧑‍💻 Authors
+
+- [Tushar](https://github.com/tusaaaaar)
+- [Sugam Rai]
+- [T Charan Kumar]
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License** — use it, modify it, build on it.
+
+---
+
+## 💬 Questions?
+
+Feel free to raise an issue or drop a message at  
+📧 **tushar@example.com** (replace with your real one)
+EOF
