@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext'; // Import useAuth
 import "./AllUsers.css";
-import ProfilePopup from '../popup/ProfilePopup';
+//import ProfilePopup from '../popup/ProfilePopup';
 
 const AllUsers = () => {
   const { user } = useAuth(); // Get logged-in user from AuthContext

@@ -1,0 +1,18 @@
+.post-swiper {
+    width: 100%;  /* Make sure it takes full width of the container */
+    height: 400px; /* Adjust height to fit within the card */
+    overflow: hidden; /* Prevent images from overflowing */
+  }
+  
+  .post-swiper .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .post-image {
+    max-width: 100%; /* Ensures the image scales properly */
+    max-height: 100%; /* Prevents overflowing */
+    object-fit: contain; /* Adjusts image fit */
+  }
+  

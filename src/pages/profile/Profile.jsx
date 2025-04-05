@@ -9,6 +9,8 @@ import {
   Box,
   Grid,
   CardMedia,
+  CardHeader,CardActions
+
 } from "@mui/material";
 import ReactDOM from "react-dom";
 import "./Profile.css";
@@ -22,6 +24,13 @@ import { useAuth } from "../../context/AuthContext";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import LockIcon from "@mui/icons-material/Lock";
 import CreatePost from "../../components/post/CreatePost";
+
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Favorite, ChatBubble, Delete,FavoriteBorder,ChatBubbleOutline } from "@mui/icons-material";
+
+import {  Snackbar, CircularProgress, DialogActions, Dialog, DialogTitle, } from "@mui/material";
+
+
 export default function Profile() {
   const { user, fetchUserData } = useAuth(); // Get user from AuthContext
   console.log("user details from useAuth in profile component", user);
@@ -43,6 +52,19 @@ export default function Profile() {
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
   const [zoomed, setZoomed] = useState(false);
+
+  //for delete popup
+ // const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState(null);
+  const [users, setUsers] = useState([]);
+   // Handle Delete Confirmation
+   const handleDeleteClick = (postId) => {
+    setSelectedPostId(postId);
+    setDialogOpen(true);
+  };
 
   const handleAvatarClick = () => setZoomed(!zoomed);
 // Fetch user data from backend (includes GridFS image fetch)
@@ -234,6 +256,83 @@ const handleSave = async () => {
   }
 };
 
+//for delete post
+// const handleDeletePost = async (postId) => {
+//   if (!window.confirm("Are you sure you want to delete this post?")) return;
+
+//   try {
+//     console.log("POST DELETE TO BACKEND id: ", postId);
+    
+//     const response = await axios.delete(`http://localhost:5000/post/delete/${postId}`);
+
+//     if (response.status !== 200) throw new Error("Failed to delete post");
+
+//     setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
+
+//     alert("Post deleted successfully!");
+//   } catch (error) {
+//     console.error("Error deleting post:", error);
+//     alert("Failed to delete post. Please try again.");
+//   }
+// };
+
+// const handleDeletePost = async (postId) => {
+//   if (!window.confirm("Are you sure you want to delete this post?")) return; // Confirm before deleting
+  
+//   try {
+//     console.log("Deleting post:", postId);
+//     const response = await axios.delete(`http://localhost:5000/posts/delete/${postId}`);
+    
+//     alert("Post deleted successfully!"); // Show success message
+//     setPosts((prevPosts) => prevPosts.filter(post => post._id !== postId)); // Update UI
+//   } catch (error) {
+//     console.error("Error deleting post:", error);
+//     alert("Failed to delete post.");
+//   }
+// };
+
+// const handleDeletePost = async (postId) => {
+//   setLoading(true);
+//   try {
+//     await axios.delete(`http://localhost:5000/posts/delete/${postId}`);
+
+//     setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
+//     setSnackbarOpen(true); // Show success message
+
+//   } catch (error) {
+//     console.error("Error deleting post:", error);
+//   }
+//   setLoading(false);
+//   setDialogOpen(false); // Close dialog after deleting
+// };
+ // Handle Post Deletion
+ const handleDeletePost = async () => {
+  if (!selectedPostId) return;
+
+  setLoading(true);
+  try {
+    await axios.delete(`http://localhost:5000/posts/delete/${selectedPostId}`);
+
+    // Remove the deleted post from the state
+    setPosts((prevPosts) => prevPosts.filter((post) => post._id !== selectedPostId));
+    
+
+     // Update userData to reflect new post count
+     setUserData((prevUserData) => ({
+      ...prevUserData,
+      posts: prevUserData.posts.filter((id) => id !== selectedPostId), // Remove post ID
+    }));
+
+    setSnackbarOpen(true); // Show success message
+  } catch (error) {
+    console.error("Error deleting post:", error);
+  }
+  setLoading(false);
+  setDialogOpen(false);
+};
+
+
+
 // Show loading if user not available
 if (!user) {
   return <Typography variant="h6">Loading user data...</Typography>;
@@ -376,38 +475,109 @@ if (!user) {
 
           {/* Dynamic Content Section */}
           <CardContent>
-            {selectedTab === "posts" && (
-              <div>
-                <h3>Your Posts</h3>
-                {posts.length > 0 ? (
-                  <Grid container spacing={2}>
-                    {posts.map((post) => (
-                      <Grid item xs={12} sm={6} md={4} key={post._id}>
-                        <Card className="post-card">
-                          {post.images?.[0] ? (
-                            <img src={post.images[0]} alt="Post" className="post-image" />
-                          ) : (
-                            <CardContent>
-                              <Typography variant="body2" sx={{ fontStyle: "italic", color: "gray" }}>Article</Typography>
-                              <Typography variant="body1">
-                                {post.content?.slice(0, 100) || ""}...
-                              </Typography>
-                            </CardContent>
-                          )}
-                          <CardContent>
-                            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                              {post.caption}
-                            </Typography>
-                          </CardContent>
-                        </Card>
-                      </Grid>
-                    ))}
-                  </Grid>
-                ) : (
-                  <p>No posts yet.</p>
-                )}
-              </div>
-            )}
+          <>
+      {selectedTab === "posts" && (
+        <div>
+          <Typography variant="h5" sx={{ mb: 2 }}>Your Posts</Typography>
+          
+          {posts.length > 0 ? (
+            <Grid container spacing={2}>
+              {posts.map((post) => (
+                <Grid item xs={12} sm={6} md={4} key={post._id}>
+                  <Card className="post-card">
+                    {/* Post Header */}
+                    <CardHeader
+                      avatar={
+                        <Avatar src={user?.profilePictureUrl || "/default-avatar.png"} alt={user?.username || "User"} />
+                      }
+                      title={user?.username || "Unknown User"}
+                      subheader={new Date(post.createdAt).toLocaleString()}
+                    />
+
+                    {/* Post Content */}
+                    {post.images?.length > 0 ? (
+                      <img src={post.images[0]} alt="Post" className="post-image" style={{ width: "100%", height: "auto" }} />
+                    ) : (
+                      <CardContent>
+                        <Typography variant="body2" sx={{ fontStyle: "italic", color: "gray" }}>Article</Typography>
+                        <Typography variant="body1">{post.content?.slice(0, 100) || ""}...</Typography>
+                      </CardContent>
+                    )}
+
+                    {/* Caption */}
+                    <CardContent>
+                      <Typography variant="body1" sx={{ fontWeight: "bold" }}>{post.caption}</Typography>
+                    </CardContent>
+
+                    {/* Post Actions */}
+                    <CardActions sx={{ justifyContent: "space-between" }}>
+                      {/* Likes */}
+                      <IconButton>
+                        <FavoriteBorder />
+                        <Typography variant="body2">{post.likes.length}</Typography>
+                      </IconButton>
+
+                      {/* Comments */}
+                      <IconButton>
+                        <ChatBubbleOutline />
+                        <Typography variant="body2">{post.comments.length}</Typography>
+                      </IconButton>
+
+                      {/* Delete Button */}
+                      <IconButton
+                        onClick={() => handleDeleteClick(post._id)}
+                        color="error"
+                        disabled={loading}
+                      >
+                        {loading && selectedPostId === post._id ? <CircularProgress size={24} /> : <DeleteIcon />}
+                      </IconButton>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          ) : (
+            <Typography variant="body1" sx={{ textAlign: "center", mt: 4, color: "gray" }}>
+              No posts yet.
+            </Typography>
+          )}
+        </div>
+      )}
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+        <DialogTitle>Are you sure you want to delete this post?</DialogTitle>
+        <DialogActions>
+          <Button onClick={() => setDialogOpen(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleDeletePost} color="error" autoFocus disabled={loading}>
+            {loading ? <CircularProgress size={20} /> : "Delete"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Snackbar for Success Message */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        message="Post deleted successfully"
+      />
+      {/* <Snackbar
+  open={snackbarOpen}
+  autoHideDuration={3000}
+  onClose={() => setSnackbarOpen(false)}
+  message="Post deleted successfully"
+  anchorOrigin={{ vertical: "top", horizontal: "center" }} // Moves Snackbar to the top
+/> */}
+
+
+    </>
+
+
+            
+
 
             {selectedTab === "saved" && (
               <div>
