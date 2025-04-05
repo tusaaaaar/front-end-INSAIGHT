@@ -22,7 +22,7 @@ This repository holds the **frontend code**, built with **React.js** using **Vit
 
 ## 🏗️ Project Structure
 
-\`\`\`
+```bash
 front-end-INSAIGHT/
 │
 ├── public/
@@ -68,7 +68,7 @@ front-end-INSAIGHT/
 ├── package.json
 ├── vite.config.js
 └── README.md
-\`\`\`
+```
 
 ---
 
