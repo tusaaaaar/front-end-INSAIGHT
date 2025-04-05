@@ -1,47 +1,35 @@
-/* .home{
-    position:relative;
-    display:grid;
-    grid-template-columns: 18rem auto 20rem;
-    gap:1rem;
-} */
-
-
 .home {
-    display: flex;
-    /* flex-direction: column; */
-    gap: 20px;
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.8fr 1.2fr;  /* Left | Post | Right */
+  gap: 20px;
+  padding: 20px;
+  /* background-image: url('../../assets/images/bg.jpg'); */
+  background-position: center;
+  background-size: cover;
+  max-width: 100%;
+  margin: 0 auto;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+/* Post Column Layout */
+.post {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Optional: Inner Post Boxes */
+.recent {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+
+/* Responsive Grid Stack on Small Screens */
+@media (max-width: 900px) {
+  .home {
+    grid-template-columns: 1fr; /* stack all */
   }
-  
-  /* Left & Right Side */
-  .leftside, .rightside {
-    flex: 1; /* Equal width */
-    background: #f8f9fa;
-    padding: 16px;
-    border-radius: 8px;
-    min-height: 400px;
-  }
-  
-  /* Center (Posts) */
-  .post {
-    flex: 2.5; /* Posts take most space */
-    background: #ffffff;
-    padding: 16px;
-    border-radius: 8px;
-    min-height: 400px;
-  }
-  
-  /* Responsive Styling */
-  @media (max-width: 900px) {
-    .home {
-      flex-direction: column; /* Stack items on small screens */
-    }
-  
-    .leftside, .rightside, .post {
-      flex: none;
-      width: 100%; /* Full width */
-    }
-  }
-  
+}

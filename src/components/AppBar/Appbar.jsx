@@ -18,7 +18,7 @@
   import "./Appbar.css";
   import { useAuth } from "../../context/AuthContext";
   import logo from "../../assets/images/insaight.png";
-
+  // import CreatePOST from "../post/CreatePost";
   export default function NavBar() {
     const [darkMode, setDarkMode] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -180,6 +180,7 @@
             {/* **Dropdown Menu** */}
             <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={() => setAnchorEl(null)} MenuListProps={{ "aria-labelledby": "basic-button" }}>
               <MenuItem onClick={() => setDarkMode(!darkMode)}>Dark Mode</MenuItem>
+
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </Toolbar>
