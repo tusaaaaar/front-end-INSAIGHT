@@ -150,3 +150,93 @@
 .download-btn:hover {
     background: #218838;
 }
+
+@media (max-width: 1024px) {
+  .eco-header {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .eco-header h2 {
+    font-size: 20px;
+    margin-top: 0;
+  }
+
+  .eco-logo {
+    width: 70px;
+    height: 70px;
+  }
+
+  .eco-chart {
+    padding: 10px;
+  }
+
+  .eco-update, .eco-event {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .download-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .eco-club {
+    padding: 10px;
+    max-height: none;
+  }
+
+  .eco-header h2 {
+    font-size: 18px;
+  }
+
+  .eco-chart h3, .eco-updates h3, .eco-quotes h3,
+  .eco-upcoming-events h3, .eco-report h3 {
+    font-size: 16px;
+  }
+
+  .eco-update p, .eco-event p, .animated-quote {
+    font-size: 14px;
+  }
+
+  .eco-update, .eco-event {
+    padding: 8px;
+  }
+
+  .see-more-text {
+    font-size: 13px;
+  }
+
+  .download-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .eco-quotes {
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .eco-logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .eco-header h2 {
+    font-size: 16px;
+  }
+
+  .download-btn {
+    font-size: 13px;
+    padding: 6px 14px;
+  }
+
+  .eco-update, .eco-event {
+    font-size: 13px;
+  }
+}

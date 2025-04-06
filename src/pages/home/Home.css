@@ -1,24 +1,27 @@
 .home {
   display: grid;
-  grid-template-columns: 1fr 1.8fr 1.2fr;  /* Left | Post | Right */
+  grid-template-columns: 1fr 2fr 1fr;  /* Left | Post | Right */
   gap: 20px;
   padding: 20px;
-  /* background-image: url('../../assets/images/bg.jpg'); */
-  background-position: center;
-  background-size: cover;
-  max-width: 100%;
+  max-width: 1300px;
   margin: 0 auto;
   min-height: 100vh;
   font-family: 'Poppins', sans-serif;
 }
-/* Post Column Layout */
+
+/* Left, Middle (Post), Right structure */
+.leftside, .post, .rightside {
+  width: 100%;
+}
+
+/* Middle column (posts) layout */
 .post {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-/* Optional: Inner Post Boxes */
+/* Post cards */
 .recent {
   background: rgba(255, 255, 255, 0.08);
   padding: 12px;
@@ -26,10 +29,48 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-
-/* Responsive Grid Stack on Small Screens */
-@media (max-width: 900px) {
+/* Responsive Design */
+@media (max-width: 1024px) {
   .home {
-    grid-template-columns: 1fr; /* stack all */
+    grid-template-columns: 1fr 2fr; /* Stack Right side below */
+    grid-template-areas:
+      "left post"
+      "right post";
+  }
+
+  .rightside {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .home {
+    grid-template-columns: 1fr;
+  }
+
+  .leftside,
+  .post,
+  .rightside {
+    grid-column: 1 / -1;
+  }
+
+  .recent {
+    padding: 10px;
+  }
+
+  .home {
+    padding: 12px;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .recent {
+    padding: 8px;
+  }
+
+  .home {
+    padding: 10px;
+    gap: 12px;
   }
 }
