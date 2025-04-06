@@ -477,72 +477,115 @@ if (!user) {
           <CardContent>
           <>
       {selectedTab === "posts" && (
-        <div>
-          <Typography variant="h5" sx={{ mb: 2 }}>Your Posts</Typography>
-          
-          {posts.length > 0 ? (
-            <Grid container spacing={2}>
-              {posts.map((post) => (
-                <Grid item xs={12} sm={6} md={4} key={post._id}>
-                  <Card className="post-card">
-                    {/* Post Header */}
-                    <CardHeader
-                      avatar={
-                        <Avatar src={user?.profilePictureUrl || "/default-avatar.png"} alt={user?.username || "User"} />
-                      }
-                      title={user?.username || "Unknown User"}
-                      subheader={new Date(post.createdAt).toLocaleString()}
-                    />
+  <div>
+    <Typography variant="h5" sx={{ mb: 2 }}>Your Posts</Typography>
 
-                    {/* Post Content */}
-                    {post.images?.length > 0 ? (
-                      <img src={post.images[0]} alt="Post" className="post-image" style={{ width: "100%", height: "auto" }} />
-                    ) : (
-                      <CardContent>
-                        <Typography variant="body2" sx={{ fontStyle: "italic", color: "gray" }}>Article</Typography>
-                        <Typography variant="body1">{post.content?.slice(0, 100) || ""}...</Typography>
-                      </CardContent>
-                    )}
+    {posts.length > 0 ? (
+      <Grid container spacing={2}>
+        {posts.map((post) => (
+          <Grid item xs={12} sm={6} md={4} key={post._id}>
+            <Card className="post-card" sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+              {/* Post Header */}
+              <CardHeader
+                avatar={
+                  <Avatar src={user?.profilePictureUrl || "/default-avatar.png"} alt={user?.username || "User"} />
+                }
+                title={user?.username || "Unknown User"}
+                subheader={new Date(post.createdAt).toLocaleString()}
+              />
 
-                    {/* Caption */}
-                    <CardContent>
-                      <Typography variant="body1" sx={{ fontWeight: "bold" }}>{post.caption}</Typography>
-                    </CardContent>
+              {/* Post Content: Fixed height box */}
+              <Box
+                sx={{
+                  height: 250,
+                  bgcolor: "#f9f9f9",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  overflow: "hidden",
+                }}
+              >
+                {post.images?.length > 0 ? (
+                  <img
+                    src={post.images[0]}
+                    alt="Post"
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                ) : (
+                  // <CardContent sx={{ width: "100%" }}>
+                  //   <Typography variant="body2" sx={{ fontStyle: "italic", color: "gray", mb: 1 }}>
+                  //     Article
+                  //   </Typography>
+                  //   <Typography variant="body2" sx={{ lineHeight: 1.4 }}>
+                  //     {post.content?.slice(0, 120) || ""}...
+                  //   </Typography>
+                  // </CardContent>
+                  <CardContent sx={{ width: "100%", px: 2, py: 1 }}>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ fontStyle: "italic", color: "gray", mb: 1 }}
+                  >
+                    Article
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      lineHeight: 1.7,
+                      fontWeight: 400,
+                      fontSize: "1rem",
+                      color: "#333",
+                      fontFamily: `"Georgia", "Times New Roman", serif`
+                    }}
+                  >
+                    {post.content?.slice(0, 120) || ""}...
+                  </Typography>
+                </CardContent>
+                
 
-                    {/* Post Actions */}
-                    <CardActions sx={{ justifyContent: "space-between" }}>
-                      {/* Likes */}
-                      <IconButton>
-                        <FavoriteBorder />
-                        <Typography variant="body2">{post.likes.length}</Typography>
-                      </IconButton>
+                )}
+              </Box>
 
-                      {/* Comments */}
-                      <IconButton>
-                        <ChatBubbleOutline />
-                        <Typography variant="body2">{post.comments.length}</Typography>
-                      </IconButton>
+              {/* Caption */}
+              <CardContent>
+                <Typography variant="body1" sx={{ fontWeight: "bold" }}>{post.caption}</Typography>
+              </CardContent>
 
-                      {/* Delete Button */}
-                      <IconButton
-                        onClick={() => handleDeleteClick(post._id)}
-                        color="error"
-                        disabled={loading}
-                      >
-                        {loading && selectedPostId === post._id ? <CircularProgress size={24} /> : <DeleteIcon />}
-                      </IconButton>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          ) : (
-            <Typography variant="body1" sx={{ textAlign: "center", mt: 4, color: "gray" }}>
-              No posts yet.
-            </Typography>
-          )}
-        </div>
-      )}
+              {/* Post Actions */}
+              <CardActions sx={{ justifyContent: "space-between", mt: "auto" }}>
+                <IconButton>
+                  <FavoriteBorder />
+                  <Typography variant="body2">{post.likes.length}</Typography>
+                </IconButton>
+
+                <IconButton>
+                  <ChatBubbleOutline />
+                  <Typography variant="body2">{post.comments.length}</Typography>
+                </IconButton>
+
+                <IconButton
+                  onClick={() => handleDeleteClick(post._id)}
+                  color="error"
+                  disabled={loading}
+                >
+                  {loading && selectedPostId === post._id ? (
+                    <CircularProgress size={24} />
+                  ) : (
+                    <DeleteIcon />
+                  )}
+                </IconButton>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    ) : (
+      <Typography variant="body1" sx={{ textAlign: "center", mt: 4, color: "gray" }}>
+        No posts yet.
+      </Typography>
+    )}
+  </div>
+)}
+
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
@@ -579,7 +622,7 @@ if (!user) {
             
 
 
-            {selectedTab === "saved" && (
+            {/* {selectedTab === "saved" && (
               <div>
                 <h3>Saved Posts</h3>
                 {savedPosts.length > 0 ? (
@@ -610,7 +653,102 @@ if (!user) {
                   <p>No saved posts yet.</p>
                 )}
               </div>
-            )}
+            )} */}
+            {selectedTab === "saved" && (
+  <div>
+    <Typography variant="h5" sx={{ mb: 2 }}>Saved Posts</Typography>
+
+    {savedPosts.length > 0 ? (
+      <Grid container spacing={2}>
+        {savedPosts.map((post) => (
+          <Grid item xs={12} sm={6} md={4} key={post._id}>
+            <Card className="post-card" sx={{ borderRadius: 3, boxShadow: 3, height: '100%' }}>
+              {/* Post Header */}
+              <CardHeader
+                avatar={
+                  <Avatar
+                    src={`http://localhost:5000/files/${post.postedBy?.profilePicture}` || "/default-avatar.png"}
+                    alt={post.postedBy?.username || "User"}
+                  />
+                }
+                title={post.postedBy?.username || "Unknown User"}
+                subheader={new Date(post.createdAt).toLocaleString()}
+              />
+
+              {/* Post Content with fixed height */}
+              <Box sx={{ height: 250, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", bgcolor: "#f9f9f9" }}>
+                {post.images?.[0] ? (
+                  <img
+                    src={post.images[0]}
+                    alt="Saved Post"
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                ) : (
+                  // <CardContent sx={{ width: "100%" }}>
+                  //   <Typography variant="body2" sx={{ fontStyle: "italic", color: "gray", mb: 1 }}>
+                  //     Article
+                  //   </Typography>
+                  //   <Typography variant="body2" sx={{ lineHeight: 1.4 }}>
+                  //     {post.content?.slice(0, 120) || ""}...
+                  //   </Typography>
+                  // </CardContent>
+                  <CardContent sx={{ width: "100%", px: 2, py: 1 }}>
+  <Typography
+    variant="subtitle2"
+    sx={{ fontStyle: "italic", color: "gray", mb: 1 }}
+  >
+    Article
+  </Typography>
+  <Typography
+    variant="body1"
+    sx={{
+      lineHeight: 1.7,
+      fontWeight: 400,
+      fontSize: "1rem",
+      color: "#333",
+      fontFamily: `"Georgia", "Times New Roman", serif`
+    }}
+  >
+    {post.content?.slice(0, 120) || ""}...
+  </Typography>
+</CardContent>
+
+                  
+                )}
+              </Box>
+
+              {/* Caption */}
+              <CardContent>
+                <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                  {post.caption}
+                </Typography>
+              </CardContent>
+
+              {/* Post Actions */}
+              <CardActions sx={{ justifyContent: "space-between", px: 2 }}>
+                <Box display="flex" alignItems="center" gap={0.5}>
+                  <FavoriteBorder fontSize="small" color="action" />
+                  <Typography variant="body2">{post.likesCount}</Typography>
+                </Box>
+                <Box display="flex" alignItems="center" gap={0.5}>
+                  <ChatBubbleOutline fontSize="small" color="action" />
+                  <Typography variant="body2">{post.commentsCount}</Typography>
+                </Box>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    ) : (
+      <Typography variant="body1" sx={{ textAlign: "center", mt: 4, color: "gray" }}>
+        No saved posts yet.
+      </Typography>
+    )}
+  </div>
+)}
+
+
+
 
             {selectedTab === "followers" && (
               <div>
