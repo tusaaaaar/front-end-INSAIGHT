@@ -1,16 +1,69 @@
 
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,body{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.password-container {
+  display: flex;
+  flex-direction: column; /* Stack elements */
+  width: 100%;
+  gap: 90px; /* Ensures spacing between inputs */
+  margin-top: 17px;
+}
+
+.password-container .infoin {
+
+  gap: 50px;
+  width: 50%;
+}
+
+.password-fields {
+  gap: 10px; /* Space between password and confirm password */
+  width: 100%;
+}
+.password-fields .infoin {
+  width: 50%; /* Each input takes half of the space */
+}
+.strength-bar-wrapper {
+  width: 100%;
+  margin-top: 0px; /* Space below password fields */
+  margin-bottom:5px;
+ 
+}
+
+
+
+       
+ 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
 .login{
     display: flex;
     height: 100vh;
-    /* align-items: center; */
+    width: 100vw;
     justify-content: center;
-    height: 100vh;
-    /*  gap: 4rem; */
     position:relative; 
     background-image: url('../../assets/images/bg.jpg');
     background-position: center;
     background-size: cover;
   }
+
 
   /* for loginright  */
   h3, h2{
@@ -105,21 +158,6 @@
     object-fit: cover;
 }
   
-  .name > h2 {
-    
-    font-size: 2 rem;
-    color: #fffb00;
-  
-  }
-  
-  .name > img{
-    width: 100%;
-    max-height: 20rem;
-    object-fit: cover;
-    border-radius: 0.5rem;
-  }
-  
-  
   .info{
     display: flex;
     flex-direction: column;
@@ -168,3 +206,59 @@
     align-items: center;
     justify-content: center;
   }
+
+  /*responsive page for tab view and mobile*/
+  @media screen and (max-width: 1024px) { /* Tablet View */
+    .App h1 { /* Hide Typewriter effect */
+        display: none;
+    }
+
+    .left { /* Hide left side */
+        display: none;
+    }
+
+    .right { /* Make right section take full width */
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login { 
+        background-image: url('../../assets/images/bg.jpg'); /* Keep background */
+        background-size: cover;
+        background-position: center;
+    }
+
+    .authentication {
+        width: 80%;
+        max-width: 400px;
+    }
+}
+
+@media screen and (max-width: 768px) { /* Mobile View */
+    .App h1 { 
+        display: none;
+    }
+    
+    .left {
+        display: none;
+    }
+
+    .right {
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+    }
+
+    .authentication {
+        width: 90%;
+        max-width: 350px;
+    }
+
+    .right > img { /* Adjust logo size */
+        width: 12rem;
+        height: 6rem;
+    }
+}

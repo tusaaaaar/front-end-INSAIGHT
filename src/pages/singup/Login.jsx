@@ -5,6 +5,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import {  useNavigate } from "react-router-dom";
 import { Typewriter } from 'react-simple-typewriter'
+import PasswordStrengthBar from "react-password-strength-bar";
 import { useAuth } from "../../context/AuthContext";
 
 
@@ -36,9 +37,9 @@ const Login = () => {
       <div className="loginleft2">
 
       <div className='App'>
-      <h1 style={{ paddingTop: 'rem', margin: 'auto 0',fontSize:'70px', fontWeight: 'normal' }}>
+      <h1 style={{ paddingTop: 'rem', margin: 'auto 0',fontFamily:'Poppins',fontSize:'60px', fontWeight: 'normal' }}>
       Life is simple{' '}
-        <span style={{ color: '#F08C8C', fontWeight: 'bold' }}>
+        <span style={{ color: '#F08C8C', fontWeight: 'normal' }}>
           {/* Style will be inherited from the parent element */}
           <Typewriter
             words={['Imagine', 'Create', 'Explore', 'Evolve']}
@@ -132,7 +133,7 @@ function SignUp( {toggleForm} ) {
       {/* <form className="info authentication"> */}
       <form className="info authentication" onSubmit={handleSignUp}>
         <h3>Sign Up</h3>
-        <div>
+        <div className="input-row">
           <input 
             type="text" 
             placeholder="Name" 
@@ -150,7 +151,7 @@ function SignUp( {toggleForm} ) {
             onChange={handleInputChange}
           />
         </div>
-        <div>
+        <div className="input-full">
           <input 
             type="text" 
             placeholder="Mail" 
@@ -161,7 +162,7 @@ function SignUp( {toggleForm} ) {
           />
         </div>
 
-        <div>
+        <div className="input-full">
           <input 
             type="text" 
             placeholder="Create a USERNAME" 
@@ -171,7 +172,8 @@ function SignUp( {toggleForm} ) {
             onChange={handleInputChange}
           />
         </div>
-        <div>
+      <div  className="password-container">
+        <div className="password-fields">
           <input 
             type="password" 
             placeholder="Password" 
@@ -189,7 +191,12 @@ function SignUp( {toggleForm} ) {
             onChange={handleInputChange}
            
           />
-        </div>
+             <div className="strength-bar-wrapper">
+                <PasswordStrengthBar password = {formData.password}/>
+             </div>
+          </div>   
+      </div>
+       
 
         {
            errorMessage && (
@@ -200,9 +207,9 @@ function SignUp( {toggleForm} ) {
          }
 
 
+       
 
-
-        <div>
+        <div className="signup-button">
           <button className=" button infoButton" type="submit">Signup</button>
         </div>
 
@@ -293,8 +300,7 @@ function Loginalready({ toggleForm }) {
             name="password"
             value={formData.password}
             onChange={handleInputChange}
-           
-          />
+          />        
         </div>
 
         <div>
