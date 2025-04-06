@@ -126,13 +126,12 @@ function SignUp( {toggleForm} ) {
 
 
   return (
-    <div className="loginRight">
-      
+    <div className="signupBox">
       
       
       {/* <form className="info authentication"> */}
       <form className="info authentication" onSubmit={handleSignUp}>
-        <h3>Sign Up</h3>
+      <div className="greetingBox"><h3>Sign Up</h3></div>
         <div className="input-row">
           <input 
             type="text" 
@@ -277,7 +276,7 @@ function Loginalready({ toggleForm }) {
   };
 
   return (
-    <div className="loginRight">
+    <div className="loginBox">
       <form className="info authentication" onSubmit={handleLogin}>
       <div className="greetingBox">
         <h3>Welcome Back </h3>

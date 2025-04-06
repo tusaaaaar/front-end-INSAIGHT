@@ -63,13 +63,25 @@ html, body {
   transform: scale(1.05);
 }
 
-.loginRight {
-  background: rgba(255, 255, 255, 0.1); /* subtle transparency */
-  backdrop-filter: blur(12px); /* gives glass effect */
+.signupBox {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border-radius: 14px;
+  padding: 0.4rem 1rem;
+  width: 450px;    
+    
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(61, 21, 21, 0.7);
+}
+
+
+.loginBox {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
   border-radius: 16px;
-  padding: 2rem;
+  padding: 1.8rem 2rem; /* Less padding for Login */
+  width: 370px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
   border: 1px solid rgba(61, 21, 21, 0.848);
 }
 .greetingBox {
@@ -194,7 +206,12 @@ h2 {
     justify-content: center;
     padding: 1rem;
   }
-
+  .signupBox,
+  .loginBox {
+    width: 80%;
+    height:80%;
+    padding: 1.5rem;
+  }
   .left, .right {
     flex: none;
     width: 100%;
