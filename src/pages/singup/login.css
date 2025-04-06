@@ -1,264 +1,207 @@
-
-*{
+/* Reset & base */
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html,body{
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+html, body {
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  color: #000000;
 }
 
-.password-container {
+/* Main login wrapper */
+.login {
   display: flex;
-  flex-direction: column; /* Stack elements */
+  min-height: 100vh;
+  background-image: url('../../assets/images/bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  backdrop-filter: brightness(0.8);
+  padding: 2rem;
+}
+
+/* Left side */
+.left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  margin-left: 5rem;
+}
+
+.left h1 {
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 500;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.left span {
+  color: #f16d6d;
+}
+
+/* Right side */
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.right img {
+  width: 240px; /* increase size */
+  max-width: 100%;
+  margin-bottom: 2.5rem;
+  filter: drop-shadow(0 0 5px rgba(232, 109, 109, 0.366));
+  transition: all 0.3s ease;
+}
+
+.right img:hover {
+  transform: scale(1.05);
+}
+
+.loginRight {
+  background: rgba(255, 255, 255, 0.1); /* subtle transparency */
+  backdrop-filter: blur(12px); /* gives glass effect */
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(61, 21, 21, 0.848);
+}
+.greetingBox {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+h3 {
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.6);
+  margin-bottom: 0.3rem;
+  letter-spacing: 1px;
+}
+
+h2 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #3d1515;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+
+/* Form base */
+.info.authentication {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  background-color: transparent;
+  padding: 1.2rem;
+}
+/* Inputs */
+.infoin {
   width: 100%;
-  gap: 90px; /* Ensures spacing between inputs */
-  margin-top: 17px;
+  padding: 0.8rem 1.2rem;
+  background: rgba(255, 255, 255, 0.4); /* light but visible */
+  border: 1px solid rgba(0, 0, 0, 0.614);
+  border-radius: 10px;
+  color: #000000;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
 }
 
-.password-container .infoin {
-
-  gap: 50px;
-  width: 50%;
+.infoin::placeholder {
+  color: rgba(0, 0, 0, 0.5);
 }
 
-.password-fields {
-  gap: 10px; /* Space between password and confirm password */
+.infoin:focus {
+  outline: none;
+  border-color: #f16d6d;
+  background: rgba(255, 255, 255, 0.8); /* when typing, bright for clarity */
+}
+
+/* Input grouping */
+.input-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.input-full {
   width: 100%;
 }
-.password-fields .infoin {
-  width: 50%; /* Each input takes half of the space */
+
+/* Button */
+.button.infoButton {
+  width: 100%;
+  padding: 0.9rem;
+  background-color: rgba(239, 128, 128, 0.853);
+  color: #fff;
+  border: 1px solid #F08C8C;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
 }
+
+.button.infoButton:hover {
+  background-color: #ffffff;
+  color:rgb(219, 91, 91);
+  transform: translateY(-1px);
+}
+
+/* Password strength bar */
 .strength-bar-wrapper {
-  width: 100%;
-  margin-top: 0px; /* Space below password fields */
-  margin-bottom:5px;
- 
+  margin-top: 0.5rem;
 }
 
-
-
-       
- 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
-
-* {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Alert message */
+.alert.alert-danger {
+  color: #f5c6cb;
+  background-color: rgba(255, 0, 0, 0.1);
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
 }
 
+/* Greeting animation */
+.swipe {
+  animation: slideIn 0.5s ease forwards;
+}
 
-.login{
-    display: flex;
-    height: 100vh;
-    width: 100vw;
-    justify-content: center;
-    position:relative; 
-    background-image: url('../../assets/images/bg.jpg');
-    background-position: center;
-    background-size: cover;
+@keyframes slideIn {
+  from {
+    transform: translateX(-30%);
+    opacity: 0;
   }
-
-
-  /* for loginright  */
-  h3, h2{
-    margin: 0;
-    padding: 0;
-  }
- 
-  h2{
-    display: block;
-    margin-top: -30px;
-    margin-bottom: 10px;
-
-  }
-
-  @keyframes swipeAnimation {
-    0%{
-      transform: translateX(-50px);
-      opacity: 0;
-    }
-    50%{
-      transform: translateX(0px);
-      opacity: 1;
-    }
-    100%{
-      transform: translateX(0);
-      opacity: 1;
-    }
-    
-  }
-
-  .swipe{
-    animation: swipeAnimation 2s ease-out forwards;
-  }
-
-  .greeting{
-    display: inline-block;
-    transition: transform 0.3s ease-out;
-  }
-
-
-
-  .login > div{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-  }
-  .left{
-    display:flex;
-    flex-direction: row;
-    flex:1.25;
-  }
-  .right{
-    display:flex;
-    flex-direction: column;
-    flex: 0.75;
-  }
-  .right > img{
-    width: 16rem;
-    height: 8rem;
-  }
-  /* Left side */
-  
-  .loginleft1{
-    height: 37rem;
-    width: 27rem;
-    position: relative;
-   
-    
-  }
-  .loginleft1 img {
-    width: 30%; 
-    height: 30%; 
-    object-fit: cover; }
-  
-  
-  .loginleft2{
-    height: 37rem;
-    width: 27rem;
-    position: absolute;
-    translate: 60%;
-    top: 30%; 
-    left: 0;
-    z-index: 1;
+  to {
+    transform: translateX(0);
     opacity: 1;
-  
   }
-
-  .loginleft2 > img {
-    position: absolute;
-    top: 50%;
-    object-fit: cover;
 }
-  
-  .info{
-    display: flex;
+
+/* Responsive */
+@media (max-width: 900px) {
+  .login {
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 2rem;
-  }
-  
-  .infoin{
-    border: none;
-    outline: none;
-    /*background-color: rgba(10, 10, 14, 0.731);*/
-    border-radius: 8px;
-    padding: 12px;
-    flex: 1;
-  }
-  .infoin:hover{
-    background-color: rgb(100, 200, 255);
-    padding: 13px;
-  }
-  
-  .info > div{
-    display: flex;
-    gap: 1rem;
-    height: 1.2rem;
-    width: 100%;
-  }
-  /* .info:last-child{
-    color:#fffb00;
-  } */
-  .infoButton{
-    width:4.5rem;
-    height: 1.7rem;
-    margin-left: auto;
-  }
-  
-  .authentication{
-    background-color: rgba(5, 162, 201, 0.212);
-    border-radius: 1rem;
+    justify-content: center;
     padding: 1rem;
-
   }
-  
-  .authentication >div{ 
+
+  .left, .right {
+    flex: none;
     width: 100%;
-    align-items: center;
-    justify-content: center;
+    padding: 1rem;
   }
 
-  /*responsive page for tab view and mobile*/
-  @media screen and (max-width: 1024px) { /* Tablet View */
-    .App h1 { /* Hide Typewriter effect */
-        display: none;
-    }
-
-    .left { /* Hide left side */
-        display: none;
-    }
-
-    .right { /* Make right section take full width */
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .login { 
-        background-image: url('../../assets/images/bg.jpg'); /* Keep background */
-        background-size: cover;
-        background-position: center;
-    }
-
-    .authentication {
-        width: 80%;
-        max-width: 400px;
-    }
-}
-
-@media screen and (max-width: 768px) { /* Mobile View */
-    .App h1 { 
-        display: none;
-    }
-    
-    .left {
-        display: none;
-    }
-
-    .right {
-        width: 100%;
-        justify-content: center;
-        align-items: center;
-        display: flex;
-    }
-
-    .authentication {
-        width: 90%;
-        max-width: 350px;
-    }
-
-    .right > img { /* Adjust logo size */
-        width: 12rem;
-        height: 6rem;
-    }
+  .right img {
+    width: 60px;
+  }
 }

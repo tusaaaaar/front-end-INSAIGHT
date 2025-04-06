@@ -37,7 +37,7 @@ const Login = () => {
       <div className="loginleft2">
 
       <div className='App'>
-      <h1 style={{ paddingTop: 'rem', margin: 'auto 0',fontFamily:'Poppins',fontSize:'60px', fontWeight: 'normal' }}>
+      <h1 style={{ paddingTop: 'rem', margin: 'auto 0',fontFamily:'Poppins',fontSize: 'clamp(2rem, 6vw, 60px)', fontWeight: 'normal' }}>
       Life is simple{' '}
         <span style={{ color: '#F08C8C', fontWeight: 'normal' }}>
           {/* Style will be inherited from the parent element */}
@@ -279,9 +279,11 @@ function Loginalready({ toggleForm }) {
   return (
     <div className="loginRight">
       <form className="info authentication" onSubmit={handleLogin}>
-        <h3>Hello</h3>
-        <h2 className={`${greeting} ${animate ? 'swipe' : ''}`}>{greeting}!</h2>
-        <div>
+      <div className="greetingBox">
+        <h3>Welcome Back </h3>
+        <h2 className={`${animate ? 'swipe' : ''}`}>{greeting}!</h2>
+      </div>
+      <div>
           <input
             type="text"
             placeholder="User Name"
