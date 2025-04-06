@@ -19,6 +19,11 @@
   import { useAuth } from "../../context/AuthContext";
   import logo from "../../assets/images/insaight.png";
   // import CreatePOST from "../post/CreatePost";
+
+
+//import ProfilePopup from "../popup/ProfilePopup";
+import ProfilePopup from "../popup/ProfilePopup";
+
   export default function NavBar() {
     const [darkMode, setDarkMode] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -31,6 +36,10 @@
     const [users, setUsers] = useState([]);
     const [isFocused, setIsFocused] = useState(false);
     const searchRef = useRef(null);
+
+//for popup
+     const [popupOpen, setPopupOpen] = useState(false);
+      const [selectedProfile, setSelectedProfile] = useState(null);
    
     useEffect(() => {
       if (query.length > 1) {
@@ -73,6 +82,7 @@
           console.error("Error fetching users:", error);
         }
       }
+      setQuery("");
     };
   
     // **Click Outside to Close Dropdown**
@@ -108,6 +118,20 @@
       navigate("/login"); // Redirect to login after logout
     };
 
+
+     // Handle click on username to open profile popup
+      const handleUserClick = async (userId) => {
+        try {
+          const res = await axios.get(`http://localhost:5000/profile/${userId}`);
+          console.log("other user profile details",res.data);
+          setSelectedProfile(res.data);  // ← pass entire object
+          setPopupOpen(true);
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
+        }
+        setQuery("");
+      };
+
     return (
       <Box  sx={{ flexGrow: 1 }}>
          {isFocused && <div className="overlay"></div>}
@@ -141,6 +165,7 @@
                         >
                           <SearchIcon className="search-icon" onClick={handleSearchClick}/>
                         </IconButton>
+                       
                     ),
                     },
                   }}
@@ -152,7 +177,8 @@
                     {users.map((user) => (
                       <div key={user._id} className="search-result-item">
                         <img src={`http://localhost:5000/files/${user.profilePicture}`} alt="Profile" className="search-avatar" />
-                        <span>{user.username}</span>
+                        <span onClick={() => handleUserClick(user._id)}>{user.username}</span>
+                        {/* <span>onClick={() => handleUserClick(user._id)}</span> */}
                         <div className="result-icon">
                         <SearchIcon />
                         </div>
@@ -179,12 +205,20 @@
 
             {/* **Dropdown Menu** */}
             <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={() => setAnchorEl(null)} MenuListProps={{ "aria-labelledby": "basic-button" }}>
-              <MenuItem onClick={() => setDarkMode(!darkMode)}>Dark Mode</MenuItem>
+              {/* <MenuItem onClick={() => setDarkMode(!darkMode)}>Dark Mode</MenuItem> */}
 
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </Toolbar>
         </AppBar>
+
+
+         {/* Profile Pop-up */}
+              <ProfilePopup
+                open={popupOpen}
+                onClose={() => setPopupOpen(false)}
+                profileData={selectedProfile}
+              />
       </Box>
     );
   }
