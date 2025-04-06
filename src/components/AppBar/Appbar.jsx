@@ -1,31 +1,33 @@
-  import * as React from "react";
-  import { useState, useEffect, useRef } from "react";
-  import { Link, useNavigate } from "react-router-dom";
-  import axios from "axios";
+import * as React from "react";
+import { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
-  import AppBar from "@mui/material/AppBar";
-  import Box from "@mui/material/Box";
-  import Toolbar from "@mui/material/Toolbar";
-  import Typography from "@mui/material/Typography";
-  import Button from "@mui/material/Button";
-  import TextField from "@mui/material/TextField";
-  import IconButton from "@mui/material/IconButton";
-  import SearchIcon from "@mui/icons-material/Search";
-  import HomeSharpIcon from '@mui/icons-material/HomeSharp';
-  import Menu from "@mui/material/Menu";
-  import MenuItem from "@mui/material/MenuItem";
-  import DehazeIcon from "@mui/icons-material/Dehaze";
-  import "./Appbar.css";
-  import { useAuth } from "../../context/AuthContext";
-  import logo from "../../assets/images/insaight.png";
-  // import CreatePOST from "../post/CreatePost";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+// import Menu from "@mui/material/Menu";
+// import MenuItem from "@mui/material/MenuItem";
+import Tooltip from '@mui/material/Tooltip';
 
+import SearchIcon from "@mui/icons-material/Search";
+import HomeSharpIcon from "@mui/icons-material/HomeSharp";
+// import DehazeIcon from "@mui/icons-material/Dehaze";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
-//import ProfilePopup from "../popup/ProfilePopup";
+import "./Appbar.css";
+import { useAuth } from "../../context/AuthContext";
+import logo from "../../assets/images/insaight.png";
+
+// import CreatePOST from "../post/CreatePost";
 import ProfilePopup from "../popup/ProfilePopup";
 
   export default function NavBar() {
-    const [darkMode, setDarkMode] = useState(false);
+    // const [darkMode, setDarkMode] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const { user, logout } = useAuth();
@@ -36,6 +38,18 @@ import ProfilePopup from "../popup/ProfilePopup";
     const [users, setUsers] = useState([]);
     const [isFocused, setIsFocused] = useState(false);
     const searchRef = useRef(null);
+
+    //name formatting function
+    const formatName = (name) => {
+      if (!name) return "User";
+      
+      // Keep original casing, slice to first word if possible
+      const trimmed = name.trim();
+      const firstWord = trimmed.split(" ")[0]; 
+      
+      return firstWord.length > 10 ? firstWord.slice(0, 9) + "…" : firstWord;
+    };
+    
 
 //for popup
      const [popupOpen, setPopupOpen] = useState(false);
@@ -100,15 +114,15 @@ import ProfilePopup from "../popup/ProfilePopup";
       };
     }, []);
     // **Dark Mode Toggle**
-    useEffect(() => {
-      if (darkMode) {
-        document.body.style.backgroundColor = "#121212"; 
-        document.body.style.color = "#E0E0E0"; // Light text
-      } else {
-        document.body.style.backgroundColor = "#FFFFFF"; 
-        document.body.style.color = "#000000"; 
-      }
-    }, [darkMode]);
+    // useEffect(() => {
+    //   if (darkMode) {
+    //     document.body.style.backgroundColor = "#121212"; 
+    //     document.body.style.color = "#E0E0E0"; // Light text
+    //   } else {
+    //     document.body.style.backgroundColor = "#FFFFFF"; 
+    //     document.body.style.color = "#000000"; 
+    //   }
+    // }, [darkMode]);
 
     // **Handle Logout**
     const handleLogout = () => {
@@ -135,7 +149,20 @@ import ProfilePopup from "../popup/ProfilePopup";
     return (
       <Box  sx={{ flexGrow: 1 }}>
          {isFocused && <div className="overlay"></div>}
-        <AppBar className={`search-wrapper ${isFocused ? "focused" : ""}`} position="static" sx={{ backgroundColor: darkMode ? "#333" : "white", color: darkMode ? "white" : "black" }}>
+         <AppBar
+          className={`search-wrapper ${isFocused ? "focused" : ""}`}
+          position="static"
+          sx={{
+            background: "rgba(30, 30, 30, 0.14)",          // darker glass
+            backdropFilter: "blur(14px)",
+            color: "black",                               // white text for contrast
+            boxShadow: "0 8px 24px rgba(0, 0, 0, 0.2)",    // more elevated shadow
+            borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+            paddingTop: "0.4rem",                         // a little higher
+            paddingBottom: "0.4rem",
+          }}
+        >
+
           <Toolbar className="icons">
             {/* Logo */}
             <Box sx={{ display: "flex", alignItems: "center", marginRight: 2 }} >
@@ -192,23 +219,54 @@ import ProfilePopup from "../popup/ProfilePopup";
 
 
             {/* **Home & Profile Buttons** */}
-            <Button color="inherit" component={Link} to="/home">
+            <Button sx={{ textTransform: "none", fontWeight: 500,fontSize: "1rem", }} color="inherit" component={Link} to="/home">
               <HomeSharpIcon />
               Home
             </Button>
-            <Button color="inherit" component={Link} to="/Profile">
-              {user.username}
-            </Button>
 
-            {/* **Menu Button** */}
+            <Tooltip title={`${user.username} - Profile`}
+            arrow
+            slotProps={{
+              tooltip: {
+                sx: {
+                  fontSize: '0.85rem',       // Bigger font
+                  padding: '0.3rem 0.5rem', 
+                }
+              }
+            }}
+            >
+              <Button sx={{ textTransform: "none", fontWeight: 500,fontSize: "1.2rem", }} color="inherit" component={Link} to="/Profile">
+                {formatName(user.username)}
+              </Button>
+            </Tooltip>
+
+
+            {/* **Logout Button** */}
+            <Tooltip
+                title="Logout"
+                arrow
+                 slotProps={{
+                  tooltip: {
+                    sx: {
+                      fontSize: '0.85rem',       // Bigger font
+                      padding: '0.3rem 0.5rem', 
+                    }
+                  }
+                }}
+              >
+                <IconButton onClick={handleLogout} color="inherit">
+                  <ExitToAppIcon />
+                </IconButton>
+              </Tooltip>
+            {/* **Menu Button**
             <Button id="basic-button" aria-controls={open ? "basic-menu" : undefined} aria-haspopup="true" onClick={(e) => setAnchorEl(e.currentTarget)} startIcon={<DehazeIcon />} />
 
-            {/* **Dropdown Menu** */}
+          
             <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={() => setAnchorEl(null)} MenuListProps={{ "aria-labelledby": "basic-button" }}>
-              {/* <MenuItem onClick={() => setDarkMode(!darkMode)}>Dark Mode</MenuItem> */}
+              <MenuItem onClick={() => setDarkMode(!darkMode)}>Dark Mode</MenuItem>
 
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
-            </Menu>
+            </Menu> */}
           </Toolbar>
         </AppBar>
 

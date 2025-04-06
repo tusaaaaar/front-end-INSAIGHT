@@ -1,6 +1,6 @@
 .home {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;  /* Left | Post | Right */
+  grid-template-columns: 1fr 1.8fr 1.2fr;  /* Left | Post | Right */
   gap: 20px;
   padding: 20px;
   max-width: 1300px;

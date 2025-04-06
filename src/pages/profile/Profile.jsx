@@ -451,8 +451,8 @@ if (!user) {
 
         {/* Stats Section */}
         <Box className="Create-Post-Button">
-            <CreatePost />
-</Box>
+             {/* <CreatePost /> */}
+        </Box>
         <Card className="profile-card">
           <CardContent className="profile-stats">
             <div className="stat-item" onClick={() => setSelectedTab("posts")}>

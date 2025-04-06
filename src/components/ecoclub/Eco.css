@@ -28,10 +28,13 @@
     color: #44a43f;
   }
   .eco-logo {
-    width: 80px;
-    height: 85px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;          
+    object-fit: cover;            
+    overflow: hidden;             
+    border: 2px solid   rgb(255, 255, 255);     
   }
-  
   .eco-chart h3 {
     text-align: center;
   }
@@ -166,7 +169,12 @@
   .eco-logo {
     width: 70px;
     height: 70px;
+    border-radius: 50%;          
+    object-fit: cover;            
+    overflow: hidden;             
+    border: 2px solid   #000000;     
   }
+  
 
   .eco-chart {
     padding: 10px;

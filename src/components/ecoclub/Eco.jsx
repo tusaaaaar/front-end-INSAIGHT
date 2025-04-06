@@ -1,9 +1,7 @@
-
-
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import axios from "axios";
-import Logo from "../../assets/images/ecologo.png"; 
+import Logo from "../../assets/images/Eco-Einsteins-Logo.png"; 
 import "./Eco.css";
 import { FaDownload } from "react-icons/fa";
 

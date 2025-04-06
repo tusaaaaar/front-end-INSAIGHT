@@ -124,15 +124,33 @@
   padding: 20px;
   display: flex;
   justify-content: space-around;
+  border-radius: 12px;
+  text-align: center;
 }
 
 .stat-item {
   cursor: pointer;
   transition: color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .stat-item:hover {
   color: #007bff;
+}
+
+.stat-item h5 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.stat-item p {
+  margin: 5px 0 0;
+  font-size: 0.9rem;
+  color: #666;
 }
 
 /* Popup Overlay */
@@ -267,32 +285,51 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 14px;
-  border-radius: 6px;
-  transition: transform 0.2s ease, background-color 0.3s ease;
-  cursor: pointer;
-  border: 1px solid rgba(32, 2, 2, 0.541);
-  margin-bottom: 10px;
+  padding: 14px 20px;
+  margin: 12px 0;
+  background: #ffffff;
+  border: 1px solid #d3a2a2;
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .user-card:hover {
-  background-color: rgba(0, 0, 0, 0.03);
+  transform: scale(1.01);
+  
 }
 
 .user-card img {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 12px;
+  border: 1px solid #ccc;
+  margin-right: 16px;
 }
 
 .user-card p {
   flex: 1;
-  margin: 0;
+  font-size: 16px;
   font-weight: 500;
-  color: #444;
+  color: #333;
 }
+
+.user-card button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.user-card button:hover {
+  background-color: #0056b3;
+}
+
+
 
 /* Follow Button */
 button.follow,
@@ -311,15 +348,11 @@ button.follow {
 }
 
 button.following {
-  background-color: #28a745;
+  background-color: #007bff;
   color: white;
   animation: followToggle 0.3s ease;
 }
 
-button:hover {
-  opacity: 0.9;
-  transform: scale(1.05);
-}
 
 @keyframes followToggle {
   0% {

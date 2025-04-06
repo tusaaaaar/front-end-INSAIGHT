@@ -98,6 +98,9 @@ const AllUsers = () => {
       try {
         const res = await axios.get(`http://localhost:5000/all/${user._id}`);
         setUsers(res.data);
+        res.data.forEach((u) => {
+          console.log("Bio received for", u.username, ":", u.bio);
+        });
       } catch (error) {
         console.error('Error fetching users:', error);
       }
@@ -147,7 +150,7 @@ const AllUsers = () => {
                 alt="Avatar"
               />
               <p
-                data-bio={u.bio || "No bio provided"}
+                data-bio={u.bio|| "No bio provided"}
                 onClick={() => handleUserClick(u._id)}
                 style={{ cursor: 'pointer', color: '#007bff' }}
               >
